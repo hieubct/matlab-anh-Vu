@@ -1,197 +1,203 @@
 
 
 function tinhtoanPad()
-        %myFun - Description
-        %
-        % Syntax: output = myFun(input)
-        %
-        % Long description
-
         clc;
 
         %! Neu phuong trinh can bang luu luong khong thoa man
         %! thi thay doi ap suat hoc lom cho truoc.
         %? Neu phuong trinh momen khong thoa man, thi thay doi goc nghieng cua Pad.
+        %? Sau do lai tinh toan lai tu dau. bao gom ca tinh toan luu luong.
+
+        % Thiet lap cac thong so ban dau
+
+            %? Tinh do day mang dau
+        % vong lap ap suat vung lom pad1
+            %? Tinh ap suat dong
+            %? Tinh ap suat tinh
+            %? Tinh luu luong
+            %? Tinh momen
+        %todo: Bo ket qua: alpha1,precess1 cho pad1.
+
+        global result = [];
 
 
+        % anpha1 = 0.02*pi/180;%! goc nghieng cua pad1
+        % anpha2 = 0.02*pi/180;%! goc nghieng cua pad2
+        % anpha3 = 0.02*pi/180;%! goc nghieng cua pad3 
+        anpha1 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad1
+        anpha2 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad2
+        anpha3 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad3 
 
-        anpha1 = 0.02*pi/180;%! goc nghieng cua pad1
-        anpha2 = 0.02*pi/180;%! goc nghieng cua pad2
-        anpha3 = 0.02*pi/180;%! goc nghieng cua pad3 
-
-
-
-        Precess1= 0.8;  % !áp suất vùng lõm1
-        Precess2= 1.8;  % !áp suất vùng lõm2
-        Precess3= 0.5;  % !áp suất vùng lõm3
-
-
-
-
+        % Precess1= 0.8;  % !áp suất vùng lõm1
+        % Precess2= 1.8;  % !áp suất vùng lõm2
+        % Precess3= 0.5;  % !áp suất vùng lõm3
+        Precess1=0.6:0.01:1.0;  % !áp suất vùng lõm1
+        Precess2= 1.6:0.01:2.0;  % !áp suất vùng lõm2
+        Precess3= 0.4:0.01:0.6;  % !áp suất vùng lõm3
 
          %* cac thong so ban dau
-         R = 100e-3; % ban kinh truc
-         l = 150e-3; % chieu dai o
-         Rt=100.21e-3;% ban kinh trong cua pad
-         Rn=115e-3; % ban kinh ngoai cua pad
-         Rlr=100.09e-3; % ban kinh lap rap
-         cl = Rt-R; % khe ho cua o truc ( tam truc va tam pad trung nhau)
-         cb = Rlr-R; % khe ho cai dat ( tam truc va tam o trung nhau)
-         nguy = 0.063; % do nhot cua dau
-         d1 = 2*R; % duong kinh truc
-         N=2000;
-         W=4000;
-         lrz=2*Rn/l;
+         global l = 150e-3; % chieu dai o
+         global R = 100e-3; % ban kinh truc
+         global Rt=100.21e-3;% ban kinh trong cua pad
+         global Rn=115e-3; % ban kinh ngoai cua pad
+         global Rlr=100.09e-3; % ban kinh lap rap
+         global cl = Rt-R; % khe ho cua o truc ( tam truc va tam pad trung nhau)
+         global cb = Rlr-R; % khe ho cai dat ( tam truc va tam o trung nhau)
+         global nguy = 0.063; % do nhot cua dau
+         global d1 = 2*R; % duong kinh truc
+         global N=2000;
+         global W=4000;
+         global lrz=2*Rn/l;
          %posi = c1/R; % ti le khe ho
          %M =0.57;%
  
-         ld = l/d1; % ti le chieu dai tren duong kinh
-         m = 160; % so luoi theo chu vi
-         n = 90; % so luoi theo phuong doc truc
+         global m = 160; % so luoi theo chu vi
+         global ld = l/d1; % ti le chieu dai tren duong kinh
+         global n = 90; % so luoi theo phuong doc truc
          %e1 =0.75e-04;% 0.1e-3; % do lech tam ban dau
-         exilon = 0.05;%e1/c1; % ti le lech tam
-         phibd = 0.5; % goc lech ban dau cua truc
- 
-         
-
-
-
-
-
-
-
-
+         global exilon = 0.05;%e1/c1; % ti le lech tam
+         global phibd = 0.5; % goc lech ban dau cua truc
+         global deltalanda = 2/n; % so luoi theo phuong doc truc
 
         % thong so pad1
-        phi11 = 3*pi/180; % goc dau cua pad
-        phi12 = 117*pi/180;% goc sau cua pad
-        beta1 = (phi11+phi12)/2; % toa do cua diem xoay
+        global phi11 = 3*pi/180; % goc dau cua pad
+        global phi12 = 117*pi/180;% goc sau cua pad
+        global beta1 = (phi11+phi12)/2; % toa do cua diem xoay
+        global exilonn1=0;%1.5e-5;% do nang cua pad1
+        global cbtt1=cb-exilonn1;
+        global M1 = 1-(cbtt1/cl);
+        global capa1=Rn*anpha1/cl;
+        global deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
+        global S1 = 0; 
+        global T1 = 0; 
+        global ERR1 = 10e-4;
+        global GAP1 =1;
+        global k1 = 1; % he so lap
+        global S1s = 0; 
+        global T1s = 0;
+        global ERR1s = 10e-4;
+        global GAP1s =1;
+        global k1s = 1; % he so lap
+
+
+
         % thong so pad2
-        phi21 = 123*pi/180; % goc dau cua pad
-        phi22 = 237*pi/180;% goc sau cua pad
-        beta2 = (phi22+phi21)/2; % toa do cua diem xoay
+        global phi21 = 123*pi/180; % goc dau cua pad
+        global phi22 = 237*pi/180;% goc sau cua pad
+        global beta2 = (phi22+phi21)/2; % toa do cua diem xoay
+        global exilonn2=0;%7e-6;% do nang cua pad2
+        global cbtt2=cb-exilonn2;
+        global M2 = 1-(cbtt2/cl);
+        global capa2=Rn*anpha2/cl;
+        global deltaphi2 = (phi22-phi21)/m; %@ chia luoi theo chu vi
+        global S2 = 0; 
+        global T2 = 0;
+        global ERR2 = 10e-4;
+        global GAP2 =1;
+        global k2 = 1; % he so lap
+        global S2s = 0; 
+        global T2s = 0;
+        global ERR2s = 10e-4;
+        global GAP2s =1;
+        global k2s = 1; % he so lap
+
+
+
         % thong so pad3
-        phi31 = 243*pi/180; % goc dau cua pad
-        phi32 = 357*pi/180;% goc sau cua pad
-        beta3 = (phi32+phi31)/2; % toa do cua diem xoay
-
-
-        exilonn1=0;%1.5e-5;% do nang cua pad1
-        cbtt1=cb-exilonn1;
-        exilonn2=0;%7e-6;% do nang cua pad2
-        cbtt2=cb-exilonn2;
-        exilonn3=0;%3e-6;% do nang cua pad3
-        cbtt3=cb-exilonn3;
-
-
-        M1 = 1-(cbtt1/cl);
-        M2 = 1-(cbtt2/cl);
-        M3 = 1-(cbtt3/cl);
-
-        capa1=Rn*anpha1/cl;
-        capa2=Rn*anpha2/cl;
-        capa3=Rn*anpha3/cl;
-
-
-
-
-    % tinh cac thong so ban dau
-    deltalanda = 2/n; % so luoi theo phuong doc truc
-    deltaphi = (phi22-phi21)/m; %@ chia luoi theo chu vi
-
-
-
-        S1 = 0; 
-        T1 = 0; 
-        ERR1 = 10e-4;
-        GAP1 =1;
-        k1 = 1; % he so lap
-
-        S2 = 0; 
-        T2 = 0;
-        ERR2 = 10e-4;
-        GAP2 =1;
-        k2 = 1; % he so lap
-
-        S3 = 0; 
-        T3= 0;
-        ERR3 = 10e-4;
-        GAP3 =1;
-        k3 = 1; % he so lap
-
-        S1s = 0; 
-        T1s = 0;
-        ERR1s = 10e-4;
-        GAP1s =1;
-        k1s = 1; % he so lap
-
-        S2s = 0; 
-        T2s = 0;
-        ERR2s = 10e-4;
-        GAP2s =1;
-        k2s = 1; % he so lap
-
-        S3s = 0; 
-        T3s = 0;
-        ERR3s = 10e-4;
-        GAP3s =1;
-        k3s = 1; % he so lap
+        global phi31 = 243*pi/180; % goc dau cua pad
+        global phi32 = 357*pi/180;% goc sau cua pad
+        global beta3 = (phi32+phi31)/2; % toa do cua diem xoay
+        global exilonn3=0;%3e-6;% do nang cua pad3
+        global cbtt3=cb-exilonn3;
+        global M3 = 1-(cbtt3/cl);
+        global capa3=Rn*anpha3/cl;
+        global deltaphi3 = (phi32-phi31)/m; %@ chia luoi theo chu vi
+        global S3 = 0; 
+        global T3= 0;
+        global ERR3 = 10e-4;
+        global GAP3 =1;
+        global k3 = 1; % he so lap
+        global S3s = 0; 
+        global T3s = 0;
+        global ERR3s = 10e-4;
+        global GAP3s =1;
+        global k3s = 1; % he so lap
 
 
        
 
         % ma tran he so ban dau cho phan hydrodynamic
-        p01 = zeros(m+1,n+1);
-        p1 = zeros(m+1,n+1);
-        a1 = zeros(m+1,n+1);
-        b1 = zeros(m+1,n+1);
-        c1 = zeros(m+1,n+1);
-        d1 = zeros(m+1,n+1);
-        e1 = zeros(m+1,n+1);
-        f1 = zeros(m+1,n+1);
-        p02 = zeros(m+1,n+1);
-        p2 = zeros(m+1,n+1);
-        a2 = zeros(m+1,n+1);
-        b2 = zeros(m+1,n+1);
-        c2 = zeros(m+1,n+1);
-        d2 = zeros(m+1,n+1);
-        e2 = zeros(m+1,n+1);
-        f2 = zeros(m+1,n+1);
-        p03 = zeros(m+1,n+1);
-        p3 = zeros(m+1,n+1);
-        a3 = zeros(m+1,n+1);
-        b3 = zeros(m+1,n+1);
-        c3 = zeros(m+1,n+1);
-        d3 = zeros(m+1,n+1);
-        e3 = zeros(m+1,n+1);
-        f3 = zeros(m+1,n+1);
-        % ma tran he so cho phan hydrostatic
-            p01s = zeros(m+1,n+1);
-            p1s  = zeros(m+1,n+1);
-            a1s  = zeros(m+1,n+1);
-            b1s  = zeros(m+1,n+1);
-            c1s  = zeros(m+1,n+1);
-            d1s  = zeros(m+1,n+1);
-            e1s  = zeros(m+1,n+1);
-            f1s  = zeros(m+1,n+1);
-            p02s = zeros(m+1,n+1);
-            p2s  = zeros(m+1,n+1);
-            a2s  = zeros(m+1,n+1);
-            b2s  = zeros(m+1,n+1);
-            c2s  = zeros(m+1,n+1);
-            d2s  = zeros(m+1,n+1);
-            e2s  = zeros(m+1,n+1);
-            f2s  = zeros(m+1,n+1);
-            p03s = zeros(m+1,n+1);
-            p3s  = zeros(m+1,n+1);
-            a3s  = zeros(m+1,n+1);
-            b3s  = zeros(m+1,n+1);
-            c3s  = zeros(m+1,n+1);
-            d3s  = zeros(m+1,n+1);
-            e3s  = zeros(m+1,n+1);
-            f3s  = zeros(m+1,n+1);
-            % khai bao cac bien ban dau
+        global p01 = zeros(m+1,n+1);
+        global p1 = zeros(m+1,n+1);
+        global a1 = zeros(m+1,n+1);
+        global b1 = zeros(m+1,n+1);
+        global c1 = zeros(m+1,n+1);
+        global d1 = zeros(m+1,n+1);
+        global e1 = zeros(m+1,n+1);
+        global f1 = zeros(m+1,n+1);
 
+
+        global p02 = zeros(m+1,n+1);
+        global p2 = zeros(m+1,n+1);
+        global a2 = zeros(m+1,n+1);
+        global b2 = zeros(m+1,n+1);
+        global c2 = zeros(m+1,n+1);
+        global d2 = zeros(m+1,n+1);
+        global e2 = zeros(m+1,n+1);
+        global f2 = zeros(m+1,n+1);
+
+
+        global p03 = zeros(m+1,n+1);
+        global p3 = zeros(m+1,n+1);
+        global a3 = zeros(m+1,n+1);
+        global b3 = zeros(m+1,n+1);
+        global c3 = zeros(m+1,n+1);
+        global d3 = zeros(m+1,n+1);
+        global e3 = zeros(m+1,n+1);
+        global f3 = zeros(m+1,n+1);
+
+
+        % ma tran he so cho phan hydrostatic
+        global p01s = zeros(m+1,n+1);
+        global p1s  = zeros(m+1,n+1);
+        global a1s  = zeros(m+1,n+1);
+        global b1s  = zeros(m+1,n+1);
+        global c1s  = zeros(m+1,n+1);
+        global d1s  = zeros(m+1,n+1);
+        global e1s  = zeros(m+1,n+1);
+        global f1s  = zeros(m+1,n+1);
+
+
+        
+        global p02s = zeros(m+1,n+1);
+        global p2s  = zeros(m+1,n+1);
+        global a2s  = zeros(m+1,n+1);
+        global b2s  = zeros(m+1,n+1);
+        global c2s  = zeros(m+1,n+1);
+        global d2s  = zeros(m+1,n+1);
+        global e2s  = zeros(m+1,n+1);
+        global f2s  = zeros(m+1,n+1);
+
+
+
+        global p03s = zeros(m+1,n+1);
+        global p3s  = zeros(m+1,n+1);
+        global a3s  = zeros(m+1,n+1);
+        global b3s  = zeros(m+1,n+1);
+        global c3s  = zeros(m+1,n+1);
+        global d3s  = zeros(m+1,n+1);
+        global e3s  = zeros(m+1,n+1);
+        global f3s  = zeros(m+1,n+1);
+
+
+        % TINH PAD1
+        tinh_do_day_mang_dau();
+        tinh_ap_suat_dong();
+        tinh_ap_suat_tinh();
+        tinh_luu_luong();
+        tinh_mo_men();
+
+            
     end
 
 
