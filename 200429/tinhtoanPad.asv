@@ -18,7 +18,7 @@ function tinhtoanPad()
             %? Tinh momen
         %todo: Bo ket qua: alpha1,precess1 cho pad1.
 
-        global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
+        global result m n l R Rt Rn Rlr cl cb nguy d1 N W lrz ld exilon phibd  deltalanda
         
         global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
         global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
@@ -43,92 +43,92 @@ function tinhtoanPad()
         Precess3= 0.4:0.01:0.6;  % !áp suất vùng lõm3
 
          %* cac thong so ban dau
-        l = 150e-3; % chieu dai o
-        R = 100e-3; % ban kinh truc
-        Rt=100.21e-3;% ban kinh trong cua pad
-        Rn=115e-3; % ban kinh ngoai cua pad
-        Rlr=100.09e-3; % ban kinh lap rap
-        cl = Rt-R; % khe ho cua o truc ( tam truc va tam pad trung nhau)
-        cb = Rlr-R; % khe ho cai dat ( tam truc va tam o trung nhau)
-        nguy = 0.063; % do nhot cua dau
-        dt = 2*R; % duong kinh truc
-        N=2000;
-        W=4000;
-        lrz=2*Rn/l;
-        %posi = c1/R; % ti le khe ho
-        %M =0.57;%
+ l = 150e-3; % chieu dai o
+ R = 100e-3; % ban kinh truc
+ Rt=100.21e-3;% ban kinh trong cua pad
+ Rn=115e-3; % ban kinh ngoai cua pad
+ Rlr=100.09e-3; % ban kinh lap rap
+ cl = Rt-R; % khe ho cua o truc ( tam truc va tam pad trung nhau)
+ cb = Rlr-R; % khe ho cai dat ( tam truc va tam o trung nhau)
+ nguy = 0.063; % do nhot cua dau
+ dt = 2*R; % duong kinh truc
+ N=2000;
+ W=4000;
+ lrz=2*Rn/l;
+%posi = c1/R; % ti le khe ho
+%M =0.57;%
 
-        m = 160; % so luoi theo chu vi
-        ld = l/dt; % ti le chieu dai tren duong kinh
-        n = 90; % so luoi theo phuong doc truc
-        %e1 =0.75e-04;% 0.1e-3; % do lech tam ban dau
-        exilon = 0.05;%e1/c1; % ti le lech tam
-        phibd = 0.5; % goc lech ban dau cua truc
-        deltalanda = 2/n; % so luoi theo phuong doc truc
+ m = 160; % so luoi theo chu vi
+ ld = l/dt; % ti le chieu dai tren duong kinh
+ n = 90; % so luoi theo phuong doc truc
+%e1 =0.75e-04;% 0.1e-3; % do lech tam ban dau
+ exilon = 0.05;%e1/c1; % ti le lech tam
+ phibd = 0.5; % goc lech ban dau cua truc
+ deltalanda = 2/n; % so luoi theo phuong doc truc
 
-        % thong so pad1
-        phi11 = 3*pi/180; % goc dau cua pad
-        phi12 = 117*pi/180;% goc sau cua pad
-        beta1 = (phi11+phi12)/2; % toa do cua diem xoay
-        exilonn1=0;%1.5e-5;% do nang cua pad1
-        cbtt1=cb-exilonn1;
-        M1 = 1-(cbtt1/cl);
-        capa1=Rn*anpha1/cl;
-        deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
-        S1 = 0; 
-        T1 = 0; 
-        ERR1 = 10e-4;
-        GAP1 =1;
-        k1 = 1; % he so lap
-        S1s = 0; 
-        T1s = 0;
-        ERR1s = 10e-4;
-        GAP1s =1;
-        k1s = 1; % he so lap
-
-
-
-        % thong so pad2
-        phi21 = 123*pi/180; % goc dau cua pad
-        phi22 = 237*pi/180;% goc sau cua pad
-        beta2 = (phi22+phi21)/2; % toa do cua diem xoay
-        exilonn2=0;%7e-6;% do nang cua pad2
-        cbtt2=cb-exilonn2;
-        M2 = 1-(cbtt2/cl);
-        capa2=Rn*anpha2/cl;
-        deltaphi2 = (phi22-phi21)/m; %@ chia luoi theo chu vi
-        S2 = 0; 
-        T2 = 0;
-        ERR2 = 10e-4;
-        GAP2 =1;
-        k2 = 1; % he so lap
-        S2s = 0; 
-        T2s = 0;
-        ERR2s = 10e-4;
-        GAP2s =1;
-        k2s = 1; % he so lap
+% thong so pad1
+phi11 = 3*pi/180; % goc dau cua pad
+ phi12 = 117*pi/180;% goc sau cua pad
+ beta1 = (phi11+phi12)/2; % toa do cua diem xoay
+ exilonn1=0;%1.5e-5;% do nang cua pad1
+ cbtt1=cb-exilonn1;
+ M1 = 1-(cbtt1/cl);
+ capa1=Rn*anpha1/cl;
+ deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
+ S1 = 0; 
+ T1 = 0; 
+ ERR1 = 10e-4;
+ GAP1 =1;
+ k1 = 1; % he so lap
+ S1s = 0; 
+ T1s = 0;
+ ERR1s = 10e-4;
+ GAP1s =1;
+ k1s = 1; % he so lap
 
 
 
-        % thong so pad3
-        phi31 = 243*pi/180; % goc dau cua pad
-        phi32 = 357*pi/180;% goc sau cua pad
-        beta3 = (phi32+phi31)/2; % toa do cua diem xoay
-        exilonn3=0;%3e-6;% do nang cua pad3
-        cbtt3=cb-exilonn3;
-        M3 = 1-(cbtt3/cl);
-        capa3=Rn*anpha3/cl;
-        deltaphi3 = (phi32-phi31)/m; %@ chia luoi theo chu vi
-        S3 = 0; 
-        T3= 0;
-        ERR3 = 10e-4;
-        GAP3 =1;
-        k3 = 1; % he so lap
-        S3s = 0; 
-        T3s = 0;
-        ERR3s = 10e-4;
-        GAP3s =1;
-        k3s = 1; % he so lap
+% thong so pad2
+phi21 = 123*pi/180; % goc dau cua pad
+ phi22 = 237*pi/180;% goc sau cua pad
+ beta2 = (phi22+phi21)/2; % toa do cua diem xoay
+ exilonn2=0;%7e-6;% do nang cua pad2
+ cbtt2=cb-exilonn2;
+ M2 = 1-(cbtt2/cl);
+ capa2=Rn*anpha2/cl;
+ deltaphi2 = (phi22-phi21)/m; %@ chia luoi theo chu vi
+ S2 = 0; 
+ T2 = 0;
+ ERR2 = 10e-4;
+ GAP2 =1;
+ k2 = 1; % he so lap
+ S2s = 0; 
+ T2s = 0;
+ ERR2s = 10e-4;
+ GAP2s =1;
+ k2s = 1; % he so lap
+
+
+
+% thong so pad3
+phi31 = 243*pi/180; % goc dau cua pad
+ phi32 = 357*pi/180;% goc sau cua pad
+ beta3 = (phi32+phi31)/2; % toa do cua diem xoay
+ exilonn3=0;%3e-6;% do nang cua pad3
+ cbtt3=cb-exilonn3;
+ M3 = 1-(cbtt3/cl);
+ capa3=Rn*anpha3/cl;
+ deltaphi3 = (phi32-phi31)/m; %@ chia luoi theo chu vi
+ S3 = 0; 
+ T3= 0;
+ ERR3 = 10e-4;
+ GAP3 =1;
+ k3 = 1; % he so lap
+ S3s = 0; 
+ T3s = 0;
+ ERR3s = 10e-4;
+ GAP3s =1;
+ k3s = 1; % he so lap
 
 
        
@@ -144,76 +144,76 @@ function tinhtoanPad()
 
 
 
-    global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
-    global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+
+
         % ma tran he so ban dau cho phan hydrodynamic
-        p01 = zeros(m+1,n+1);
-        p1 = zeros(m+1,n+1);
-        a1 = zeros(m+1,n+1);
-        b1 = zeros(m+1,n+1);
-        c1 = zeros(m+1,n+1);
-        d1 = zeros(m+1,n+1);
-        e1 = zeros(m+1,n+1);
-        f1 = zeros(m+1,n+1);
+  p01 = zeros(m+1,n+1);
+  p1 = zeros(m+1,n+1);
+  a1 = zeros(m+1,n+1);
+  b1 = zeros(m+1,n+1);
+  c1 = zeros(m+1,n+1);
+  d1 = zeros(m+1,n+1);
+  e1 = zeros(m+1,n+1);
+  f1 = zeros(m+1,n+1);
 
 
-        p02 = zeros(m+1,n+1);
-        p2 = zeros(m+1,n+1);
-        a2 = zeros(m+1,n+1);
-        b2 = zeros(m+1,n+1);
-        c2 = zeros(m+1,n+1);
-        d2 = zeros(m+1,n+1);
-        e2 = zeros(m+1,n+1);
-        f2 = zeros(m+1,n+1);
+  p02 = zeros(m+1,n+1);
+  p2 = zeros(m+1,n+1);
+  a2 = zeros(m+1,n+1);
+  b2 = zeros(m+1,n+1);
+  c2 = zeros(m+1,n+1);
+  d2 = zeros(m+1,n+1);
+  e2 = zeros(m+1,n+1);
+  f2 = zeros(m+1,n+1);
 
 
-        p03 = zeros(m+1,n+1);
-        p3 = zeros(m+1,n+1);
-        a3 = zeros(m+1,n+1);
-        b3 = zeros(m+1,n+1);
-        c3 = zeros(m+1,n+1);
-        d3 = zeros(m+1,n+1);
-        e3 = zeros(m+1,n+1);
-        f3 = zeros(m+1,n+1);
+  p03 = zeros(m+1,n+1);
+  p3 = zeros(m+1,n+1);
+  a3 = zeros(m+1,n+1);
+  b3 = zeros(m+1,n+1);
+  c3 = zeros(m+1,n+1);
+  d3 = zeros(m+1,n+1);
+  e3 = zeros(m+1,n+1);
+  f3 = zeros(m+1,n+1);
 
 
-        % ma tran he so cho phan hydrostatic
-        p01s = zeros(m+1,n+1);
-        p1s  = zeros(m+1,n+1);
-        a1s  = zeros(m+1,n+1);
-        b1s  = zeros(m+1,n+1);
-        c1s  = zeros(m+1,n+1);
-        d1s  = zeros(m+1,n+1);
-        e1s  = zeros(m+1,n+1);
-        f1s  = zeros(m+1,n+1);
+ % ma tran he so cho phan hydrostatic
+  p01s = zeros(m+1,n+1);
+  p1s  = zeros(m+1,n+1);
+  a1s  = zeros(m+1,n+1);
+  b1s  = zeros(m+1,n+1);
+  c1s  = zeros(m+1,n+1);
+  d1s  = zeros(m+1,n+1);
+  e1s  = zeros(m+1,n+1);
+  f1s  = zeros(m+1,n+1);
 
 
-        
-        p02s = zeros(m+1,n+1);
-        p2s  = zeros(m+1,n+1);
-        a2s  = zeros(m+1,n+1);
-        b2s  = zeros(m+1,n+1);
-        c2s  = zeros(m+1,n+1);
-        d2s  = zeros(m+1,n+1);
-        e2s  = zeros(m+1,n+1);
-        f2s  = zeros(m+1,n+1);
+ 
+  p02s = zeros(m+1,n+1);
+  p2s  = zeros(m+1,n+1);
+  a2s  = zeros(m+1,n+1);
+  b2s  = zeros(m+1,n+1);
+  c2s  = zeros(m+1,n+1);
+  d2s  = zeros(m+1,n+1);
+  e2s  = zeros(m+1,n+1);
+  f2s  = zeros(m+1,n+1);
 
 
 
-        p03s = zeros(m+1,n+1);
-        p3s  = zeros(m+1,n+1);
-        a3s  = zeros(m+1,n+1);
-        b3s  = zeros(m+1,n+1);
-        c3s  = zeros(m+1,n+1);
-        d3s  = zeros(m+1,n+1);
-        e3s  = zeros(m+1,n+1);
-        f3s  = zeros(m+1,n+1);
+  p03s = zeros(m+1,n+1);
+  p3s  = zeros(m+1,n+1);
+  a3s  = zeros(m+1,n+1);
+  b3s  = zeros(m+1,n+1);
+  c3s  = zeros(m+1,n+1);
+  d3s  = zeros(m+1,n+1);
+  e3s  = zeros(m+1,n+1);
+  f3s  = zeros(m+1,n+1);
 
 
         % TINH PAD1
 
         for c=1:size(anpha1)
-            [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11,deltaphi1);
+            [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11);
             % tinh_ap_suat_dong(deltaphi1);
             % tinh_ap_suat_tinh(deltaphi1);
             % check = tinh_luu_luong(deltaphi1);
@@ -261,20 +261,13 @@ function tinhtoanPad()
 
 
 
-function [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phid,deltaphi)
+function [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phid)
     %myFun - Description
     %
     % Syntax: output = myFun(input)
     %
     % Long description
     %  do day mang dau
-    
-    global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
-    global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
-    global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
-    global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
-    global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
-    global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
     for i=1:m+1
         for j=1:n+1
             % phan dong
