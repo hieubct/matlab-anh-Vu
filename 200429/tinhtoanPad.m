@@ -73,7 +73,7 @@ function tinhtoanPad()
         exilonn1=0;%1.5e-5;% do nang cua pad1
         cbtt1=cb-exilonn1;
         M1 = 1-(cbtt1/cl);
-        capa1=Rn*anpha1/cl;
+        
         deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
         S1 = 0; 
         T1 = 0; 
@@ -213,41 +213,50 @@ function tinhtoanPad()
         % TINH PAD1
 
         for c=1:size(anpha1)
+            capa1=Rn*anpha1(c)/cl;
             [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11,deltaphi1);
-            % tinh_ap_suat_dong(deltaphi1);
-            % tinh_ap_suat_tinh(deltaphi1);
-            % check = tinh_luu_luong(deltaphi1);
+            for k=1:size(Precess1)
+                tinh_ap_suat_dong(deltaphi1,Precess1(k),hc1,ht1,h1);
+                tinh_ap_suat_tinh(deltaphi1,Precess1(k),hc1s,ht1s,h1s);
+                Q = tinh_luu_luong(deltaphi1,h1,h1s);
+                %M = tinh_mo_men(phi11,phi1, deltaphi1)
+                if(Q)
+                    result = [result anpha1(c) Precess1(k)];
+                end
+            end
             % while(!check)
             %     check = tinh_luu_luong(deltaphi1);
             % end
             % tinh_mo_men();
         end
+        transpose(result)
+
+        % % TINH PAD2
+        % for c=1:size(anpha2)
+        %     capa2=Rn*anpha2(c)/cl;
+        %     [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi21,deltaphi2);
+        %     % tinh_ap_suat_dong(deltaphi1);
+        %     % tinh_ap_suat_tinh(deltaphi1);
+        %     % check = tinh_luu_luong(deltaphi1);
+        %     % while(!check)
+        %     %     check = tinh_luu_luong(deltaphi1);
+        %     % end
+        %     % tinh_mo_men();
+        % end
 
 
-        % TINH PAD2
-        for c=1:size(anpha2)
-            [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11);
-            % tinh_ap_suat_dong(deltaphi1);
-            % tinh_ap_suat_tinh(deltaphi1);
-            % check = tinh_luu_luong(deltaphi1);
-            % while(!check)
-            %     check = tinh_luu_luong(deltaphi1);
-            % end
-            % tinh_mo_men();
-        end
-
-
-        % TINH PAD2
-        for c=1:size(anpha3)
-            [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11);
-            % tinh_ap_suat_dong(deltaphi1);
-            % tinh_ap_suat_tinh(deltaphi1);
-            % check = tinh_luu_luong(deltaphi1);
-            % while(!check)
-            %     check = tinh_luu_luong(deltaphi1);
-            % end
-            % tinh_mo_men();
-        end
+        % % TINH PAD2
+        % for c=1:size(anpha3)
+        %     capa3=Rn*anpha3(c)/cl;
+        %     [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi31,deltaphi3);
+        %     % tinh_ap_suat_dong(deltaphi1);
+        %     % tinh_ap_suat_tinh(deltaphi1);
+        %     % check = tinh_luu_luong(deltaphi1);
+        %     % while(!check)
+        %     %     check = tinh_luu_luong(deltaphi1);
+        %     % end
+        %     % tinh_mo_men();
+        % end
 
             
     end
@@ -275,6 +284,7 @@ function [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phid
     global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
     global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
     global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+
     for i=1:m+1
         for j=1:n+1
             % phan dong
@@ -295,8 +305,15 @@ function [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phid
 
 
 
-function tinh_ap_suat_dong(deltaphi)
+function tinh_ap_suat_dong(deltaphi,Precess,hc1,ht1,h1)
         % ch??ng trinh tinh ap suat dong
+        global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
+        global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
+        global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
+        global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
+        global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
+        global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+
         while GAP1>ERR1
             k1 = k1+1;
             fx1=0;
@@ -306,7 +323,7 @@ function tinh_ap_suat_dong(deltaphi)
                     if i==1||i==m+1||j==1||j==n+1
                         p1(i,j)=0;
                     elseif i>=80&&i<=82&&j>=45&&j<=47
-                        p1(i,j)=Precess1;    
+                        p1(i,j)=Precess;    
                     else
                         a1(i,j)= hc1(i,j)^3;
                         b1(i,j)= ht1(i,j)^3;
@@ -334,13 +351,22 @@ function tinh_ap_suat_dong(deltaphi)
     end
 
 
-function tinh_ap_suat_tinh(deltaphi)
+function tinh_ap_suat_tinh(deltaphi, Precess,hc1s,ht1s,h1s)
     %myFun - Description
     %
     % Syntax: output = myFun(input)
     %
     % Long description
         % chuong trinh tinh ap suat tinh
+
+        global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
+        global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
+        global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
+        global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
+        global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
+        global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+
+
         while GAP1s>ERR1s
             k1s = k1s+1;
             for i =1:m+1
@@ -349,7 +375,7 @@ function tinh_ap_suat_tinh(deltaphi)
                         p1s(i,j)=0;
                         %p(i,j)=0;%p(i,j+1);
                     elseif i>=65&&i<=95&&j>=35&&j<=55
-                    p1s(i,j)=Precess1;
+                    p1s(i,j)=Precess;
                     else
                         a1s(i,j)= hc1s(i,j)^3;
                     b1s(i,j)= ht1s(i,j)^3;
@@ -365,17 +391,29 @@ function tinh_ap_suat_tinh(deltaphi)
                     end
             end
             end
-        for i= 1:m+1
-            for j= 1:n+1
-                S1s=S1s+abs(p1s(i,j)-p01s(i,j));
-                T1s=T1s+abs(p1s(i,j));
-                GAP1s=S1s/T1s;
+            for i= 1:m+1
+                for j= 1:n+1
+                    S1s=S1s+abs(p1s(i,j)-p01s(i,j));
+                    T1s=T1s+abs(p1s(i,j));
+                    GAP1s=S1s/T1s;
+                end
             end
+            p01s=p1s;
         end
-        p01s=p1s;
-        end
-    end
-function tinh_luu_luong(deltaphi)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+function Q = tinh_luu_luong(deltaphi,h1,h1s)
     %myFun - Description
     %
     % Syntax: output = myFun(input)
@@ -383,13 +421,24 @@ function tinh_luu_luong(deltaphi)
     % Long description
 
         % Can bang luu luong
+
+        global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
+        global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
+        global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
+        global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
+        global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
+        global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+
+
         Qd11=0;
         Qd12=0;
         Qd13=0;
         Qs11=0;
         Qs12=0;
         Qs13=0;
-        for j=(n/2-1):(n/2+2)
+        n
+        round(n/2-1)
+        for j=(round(n/2-1):(n/2+2))
             Qd11=Qd11+(1/2)*ld^2*((h1(79,44)+(1/3)*(h1(79,44))^3*((-3*p1(79,j)+4*p1(78,j)-p1(77,j)))/(2*deltaphi))*(deltalanda));
             Qd12=Qd12+(1/4)*ld^2*(h1(83,44)-(1/3)*(h1(83,44))^3*((3*p1(83,j)-4*p1(84,j)+p1(85,j))/(2*deltaphi))*(deltalanda));
             
@@ -424,13 +473,18 @@ function tinh_luu_luong(deltaphi)
         
     end
 
-function output = tinh_mo_men(~)
+function M = tinh_mo_men(phid,phi1, deltaphi)
     %myFun - Description
     %
     % Syntax: output = myFun(input)
     %
     % Long description
-
+    global result m n l R Rt Rn Rlr cl cb nguy dt N W lrz ld exilon phibd  deltalanda
+    global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
+    global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
+    global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
+    global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
+    global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
     % can bang momen
         Md1=0;
         Msr1=0;
@@ -469,6 +523,12 @@ function output = tinh_mo_men(~)
             end
             end
         Ms1=Msr1+Mso11+Mso11+Mso31+Mso41;
+
+        if(Md1==Ms1)
+            M=true;
+        else
+            M=false;
+        end
         
     end
 
