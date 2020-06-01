@@ -23,9 +23,11 @@ function tinhtoanPad()
         global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
         global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
         global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
+        global QQ
         
 
         result = [];
+        QQ = [];
 
 
         % anpha1 = 0.02*pi/180;%! goc nghieng cua pad1
@@ -229,6 +231,7 @@ function tinhtoanPad()
             % end
             % tinh_mo_men();
         end
+        QQ
         transpose(result)
 
         % % TINH PAD2
@@ -428,6 +431,7 @@ function Q = tinh_luu_luong(deltaphi,h1,h1s)
         global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
         global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
         global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+        global QQ
 
 
         Qd11=0;
@@ -436,8 +440,6 @@ function Q = tinh_luu_luong(deltaphi,h1,h1s)
         Qs11=0;
         Qs12=0;
         Qs13=0;
-        n
-        round(n/2-1)
         for j=(round(n/2-1):(n/2+2))
             Qd11=Qd11+(1/2)*ld^2*((h1(79,44)+(1/3)*(h1(79,44))^3*((-3*p1(79,j)+4*p1(78,j)-p1(77,j)))/(2*deltaphi))*(deltalanda));
             Qd12=Qd12+(1/4)*ld^2*(h1(83,44)-(1/3)*(h1(83,44))^3*((3*p1(83,j)-4*p1(84,j)+p1(85,j))/(2*deltaphi))*(deltalanda));
@@ -463,9 +465,10 @@ function Q = tinh_luu_luong(deltaphi,h1,h1s)
             end
         end
         Q1s=Qs11+Qs12+Qs13;
-
+        
+        QQ = [QQ Q1d Q1s];
         % KIEM TRA CAN BANG LUU LUONG.
-        if(Q1s == Q1d)
+        if(abs(Q1s - Q1d)<=0.1)
             Q=true;
         else
             Q=false;
