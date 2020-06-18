@@ -23,24 +23,25 @@ function tinhtoanPad()
         global phi12 beta1 exilonn1  cbtt1  M1 capa1 deltaphi1  S1 T1 ERR1 GAP1 k1 S1s T1s ERR1s GAP1s k1s
         global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
         global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
-        global QQ
+        global QQ MM
         
 
         result = [];
         QQ = [];
+        MM = [];
 
 
-        % anpha1 = 0.02*pi/180;%! goc nghieng cua pad1
+         anpha1 = 0.02*pi/180;%! goc nghieng cua pad1
         % anpha2 = 0.02*pi/180;%! goc nghieng cua pad2
         % anpha3 = 0.02*pi/180;%! goc nghieng cua pad3 
-        anpha1 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad1
+        % anpha1 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad1
         anpha2 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad2
         anpha3 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad3 
 
-        % Precess1= 0.8;  % !áp suất vùng lõm1
+         Precess1= 1;  % !áp suất vùng lõm1
         % Precess2= 1.8;  % !áp suất vùng lõm2
         % Precess3= 0.5;  % !áp suất vùng lõm3
-        Precess1=0.8:0.01:1.2;  % !áp suất vùng lõm1
+        % Precess1=0.8:0.01:1.2;  % !áp suất vùng lõm1
         Precess2= 1.6:0.01:2.0;  % !áp suất vùng lõm2
         Precess3= 0.4:0.01:0.6;  % !áp suất vùng lõm3
 
@@ -240,30 +241,22 @@ function tinhtoanPad()
 
 
         % TINH PAD1
-        for c=1:size(anpha1,2)
+        for c=1:length(anpha1)
             capa1=Rn*anpha1(c)/cl;
             [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11,deltaphi1);
-            for k=1:size(Precess1,2)
-%                 c
-%                 k
-%                 anpha1(c)
-%                 Precess1(k)
+            for k=1:length(Precess1)
                  tinh_ap_suat_dong(deltaphi1,Precess1(k),hc1,ht1,h1);
                  tinh_ap_suat_tinh(deltaphi1,Precess1(k),hc1s,ht1s,h1s);
                  Q = tinh_luu_luong(deltaphi1,h1,h1s);
-                %M = tinh_mo_men(phi11,phi1, deltaphi1)
-                
-                 if(Q)
+                 M = tinh_mo_men(phi11,phi1, deltaphi1);
+                 if(Q&&M)
                      result = [result anpha1(c) Precess1(k)];
                  end
             end
-            % while(!check)
-            %     check = tinh_luu_luong(deltaphi1);
-            % end
-            % tinh_mo_men();
         end
         QQ
-        transpose(result)
+        MM
+        result
 
         % % TINH PAD2
         % for c=1:size(anpha2)
@@ -523,7 +516,7 @@ function M = tinh_mo_men(phid,phi1, deltaphi)
     global phi22 beta2 exilonn2  cbtt2  M2 capa2 deltaphi2  S2 T2 ERR2 GAP2 k2 S2s T2s ERR2s GAP2s k2s
     global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
     global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
-    global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
+    global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s MM
      % can bang momen
         Md1=0;
         Msr1=0;
@@ -562,8 +555,8 @@ function M = tinh_mo_men(phid,phi1, deltaphi)
             end
             end
         Ms1=Msr1+Mso11+Mso11+Mso31+Mso41;
-
-        if(Md1==Ms1)
+        MM = [MM Md1 Ms1];
+        if(abs(Md1-Ms1)<=0.01)
             M=true;
         else
             M=false;
