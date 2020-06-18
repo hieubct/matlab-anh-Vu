@@ -40,7 +40,7 @@ function tinhtoanPad()
         % Precess1= 0.8;  % !áp suất vùng lõm1
         % Precess2= 1.8;  % !áp suất vùng lõm2
         % Precess3= 0.5;  % !áp suất vùng lõm3
-        Precess1=0.6:0.01:1.0;  % !áp suất vùng lõm1
+        Precess1=0.8:0.01:1.2;  % !áp suất vùng lõm1
         Precess2= 1.6:0.01:2.0;  % !áp suất vùng lõm2
         Precess3= 0.4:0.01:0.6;  % !áp suất vùng lõm3
 
@@ -212,19 +212,50 @@ function tinhtoanPad()
         f3s  = zeros(m+1,n+1);
 
 
-        % TINH PAD1
 
-        for c=1:size(anpha1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        % TINH PAD1
+        for c=1:size(anpha1,2)
             capa1=Rn*anpha1(c)/cl;
             [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11,deltaphi1);
-            for k=1:size(Precess1)
-                tinh_ap_suat_dong(deltaphi1,Precess1(k),hc1,ht1,h1);
-                tinh_ap_suat_tinh(deltaphi1,Precess1(k),hc1s,ht1s,h1s);
-                Q = tinh_luu_luong(deltaphi1,h1,h1s);
+            for k=1:size(Precess1,2)
+%                 c
+%                 k
+%                 anpha1(c)
+%                 Precess1(k)
+                 tinh_ap_suat_dong(deltaphi1,Precess1(k),hc1,ht1,h1);
+                 tinh_ap_suat_tinh(deltaphi1,Precess1(k),hc1s,ht1s,h1s);
+                 Q = tinh_luu_luong(deltaphi1,h1,h1s);
                 %M = tinh_mo_men(phi11,phi1, deltaphi1)
-                if(Q)
-                    result = [result anpha1(c) Precess1(k)];
-                end
+                
+                 if(Q)
+                     result = [result anpha1(c) Precess1(k)];
+                 end
             end
             % while(!check)
             %     check = tinh_luu_luong(deltaphi1);
@@ -378,15 +409,15 @@ function tinh_ap_suat_tinh(deltaphi, Precess,hc1s,ht1s,h1s)
                         p1s(i,j)=0;
                         %p(i,j)=0;%p(i,j+1);
                     elseif i>=65&&i<=95&&j>=35&&j<=55
-                    p1s(i,j)=Precess;
+                        p1s(i,j)=Precess;
                     else
                         a1s(i,j)= hc1s(i,j)^3;
-                    b1s(i,j)= ht1s(i,j)^3;
+                        b1s(i,j)= ht1s(i,j)^3;
                         c1s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h1s(i,j)^3;
                         d1s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h1s(i,j)^3;
                         e1s(i,j)= a1s(i,j)+b1s(i,j)+c1s(i,j)+d1s(i,j);
-                    f1s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
-                    p1s(i,j)= (a1s(i,j)*p01s(i+1,j)+b1s(i,j)*p01s(i-1,j)+c1s(i,j)*p01s(i,j+1)+d1s(i,j)*p01s(i,j-1)-f1s(i,j))/e1s(i,j);  % he phuong trinh tinh ap suat
+                        f1s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
+                        p1s(i,j)= (a1s(i,j)*p01s(i+1,j)+b1s(i,j)*p01s(i-1,j)+c1s(i,j)*p01s(i,j+1)+d1s(i,j)*p01s(i,j-1)-f1s(i,j))/e1s(i,j);  % he phuong trinh tinh ap suat
                         
                         %if p(i,j)<=0
                                 %p(i,j)=0;
@@ -441,13 +472,17 @@ function Q = tinh_luu_luong(deltaphi,h1,h1s)
         Qs12=0;
         Qs13=0;
         for j=(round(n/2-1):(n/2+2))
-            Qd11=Qd11+(1/2)*ld^2*((h1(79,44)+(1/3)*(h1(79,44))^3*((-3*p1(79,j)+4*p1(78,j)-p1(77,j)))/(2*deltaphi))*(deltalanda));
-            Qd12=Qd12+(1/4)*ld^2*(h1(83,44)-(1/3)*(h1(83,44))^3*((3*p1(83,j)-4*p1(84,j)+p1(85,j))/(2*deltaphi))*(deltalanda));
-            
+
+            Qd11=Qd11+(1/2)*ld^2*((h1(79,44)-(1/3)*(h1(79,44))^3*((-3*p1(78,j)+4*p1(79,j)-p1(80,j)))/(2*deltaphi))*(deltalanda));
+            %Qd11=Qd11+(1/2)*ld^2*((h1(79,44)+(1/3)*(h1(79,44))^3*((-3*p1(79,j)+4*p1(78,j)-p1(77,j)))/(2*deltaphi))*(deltalanda));
+            Qd12=Qd12+(1/2)*ld^2*((-h1(83,44)-(1/3)*(h1(83,44))^3*((3*p1(84,j)-4*p1(83,j)+p1(82,j)))/(2*deltaphi))*(deltalanda));
+            %Qd12=Qd12+(1/4)*ld^2*((h1(83,44)-(1/3)*(h1(83,44))^3*((3*p1(83,j)-4*p1(84,j)+p1(85,j)))/(2*deltaphi))*(deltalanda));
+
+
         end
         for j=44
             for i=79:83
-            Qd13=Qd13-(1/6)*(h1(i,44))^3*(3*p1(i,44)-4*p1(i,43)+p1(i,42))*(deltaphi/deltalanda);
+                Qd13=Qd13-(1/6)*(h1(i,44))^3*(3*p1(i,44)-4*p1(i,43)+p1(i,42))*(deltaphi/deltalanda);
             end
         end
         Q1d=Qd11+Qd12+Qd13;
@@ -456,19 +491,20 @@ function Q = tinh_luu_luong(deltaphi,h1,h1s)
             for j=16:76
             Qs11=Qs11-(1/2)*ld^2*((1/3)*(h1s(51,16))^3*((-3*p1s(51,j)+4*p1s(50,j)-p1s(49,j))/(2*deltaphi))*(deltalanda)); 
             Qs12=Qs12-(1/2)*ld^2*(-(1/3)*(h1s(111,16))^3*((3*p1s(111,j)-4*p1s(112,j)+p1s(113,j))/(2*deltaphi))*(deltalanda));
+
             end
         end
         for j=16
             for i=51:111
-            Qs13=Qs13+(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j-1)+p1s(i,j-2))*(deltaphi/deltalanda);
-            %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
+                Qs13=Qs13+(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j-1)+p1s(i,j-2))*(deltaphi/deltalanda);
+                %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
             end
         end
         Q1s=Qs11+Qs12+Qs13;
         
         QQ = [QQ Q1d Q1s];
         % KIEM TRA CAN BANG LUU LUONG.
-        if(abs(Q1s - Q1d)<=0.1)
+        if(abs(Q1s - Q1d)<=0.001)
             Q=true;
         else
             Q=false;
@@ -488,7 +524,7 @@ function M = tinh_mo_men(phid,phi1, deltaphi)
     global phi32 beta3 exilonn3  cbtt3  M3 capa3 deltaphi3  S3 T3 ERR3 GAP3 k3 S3s T3s ERR3s GAP3s k3s
     global p01 p1 a1 b1 c1 d1 e1 f1  p02 p2 a2 b2 c2 d2 e2 f2 p03 p3 a3 b3 c3 d3 e3 f3 
     global p01s p1s a1s b1s c1s d1s e1s f1s  p02s p2s a2s b2s c2s d2s e2s f2s p03s p3s a3s b3s c3s d3s e3s f3s 
-    % can bang momen
+     % can bang momen
         Md1=0;
         Msr1=0;
         Mso11=0;
@@ -497,32 +533,32 @@ function M = tinh_mo_men(phid,phi1, deltaphi)
         Mso41=0;
         for i=1:m+1
             for j=1:n+1
-                Md1=Md1-R*p1(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Md1=Md1-R*p1(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
         end
         for i=51:111
             for j=16:76
-                Msr1=Msr1-Rn*p1s(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Msr1=Msr1-Rn*p1s(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
         end
         for i=1:50
             for j=1:n+1
-                Mso11=Mso11-Rn*p1s(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Mso11=Mso11-Rn*p1s(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
         end
         for i=112:m+1
             for j=1:n+1
-                Mso21=Mso21-Rn*p1s(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Mso21=Mso21-Rn*p1s(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
         end
         for i=51:111
             for j=1:15
-                Mso31=Mso31-Rn*p1s(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Mso31=Mso31-Rn*p1s(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
         end
             for i=51:111
             for j=77:n+1
-                Mso41=Mso41-Rn*p1s(i,j)*sin(phi11-phi1(i,j))*deltaphi*deltalanda;
+                Mso41=Mso41-Rn*p1s(i,j)*sin(phid-phi1(i,j))*deltaphi*deltalanda;
             end
             end
         Ms1=Msr1+Mso11+Mso11+Mso31+Mso41;
