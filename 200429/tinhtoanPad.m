@@ -37,7 +37,7 @@ function tinhtoanPad()
         anpha2 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad2
         anpha3 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad3 
 
-        % Precess1= 1;  % !áp suất vùng lõm1
+        %  Precess1= 1;  % !áp suất vùng lõm1
         % Precess2= 1.8;  % !áp suất vùng lõm2
         % Precess3= 0.5;  % !áp suất vùng lõm3
         Precess1=0.8:0.01:1;  % !áp suất vùng lõm1
@@ -78,7 +78,10 @@ function tinhtoanPad()
         
         deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
         S1 = 0; 
-        T1 = 0; 
+        T1 = 0;
+
+
+
         ERR1 = 10e-4;
         GAP1 =1;
         k1 = 1; % he so lap
@@ -200,12 +203,14 @@ function tinhtoanPad()
 
 
 
-
         % TINH PAD1
         for c=1:length(anpha1)
+            
             capa1=Rn*anpha1(c)/cl;
             [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phi11,deltaphi1);
             for k=1:length(Precess1)
+                anpha1(c)
+                Precess1(k)
                  tinh_ap_suat_dong(deltaphi1,Precess1(k),hc1,ht1,h1);
                  tinh_ap_suat_tinh(deltaphi1,Precess1(k),hc1s,ht1s,h1s);
                  Q = tinh_luu_luong(deltaphi1,h1,h1s);
@@ -250,11 +255,25 @@ function [phi1,phic1,phit1,h1,hc1,ht1,h1s,hc1s,ht1s] = tinh_do_day_mang_dau(phid
 
 
 
-function tinh_ap_suat_dong(deltaphi,Precess,hc1,ht1,h1)
+function pDong = tinh_ap_suat_dong(deltaphi,Precess,hc1,ht1,h1)
         % ch??ng trinh tinh ap suat dong
-        global  m n ld  deltalanda S1 T1 ERR1 GAP1 k1 
+        global  m n ld  deltalanda S1 T1 ERR1
         global p01 p1 a1 b1 c1 d1 e1 f1
+        
+         % ma tran he so ban dau cho phan hydrodynamic
+        p01 = zeros(m+1,n+1);
+        p1 = zeros(m+1,n+1);
+        a1 = zeros(m+1,n+1);
+        b1 = zeros(m+1,n+1);
+        c1 = zeros(m+1,n+1);
+        d1 = zeros(m+1,n+1);
+        e1 = zeros(m+1,n+1);
+        f1 = zeros(m+1,n+1);
 
+        GAP1=1;
+        k1=1;
+        S1 = 0; 
+        T1 = 0;
         while GAP1>ERR1
             k1 = k1+1;
             fx1=0;
@@ -292,12 +311,27 @@ function tinh_ap_suat_dong(deltaphi,Precess,hc1,ht1,h1)
     end
 
 
-function tinh_ap_suat_tinh(deltaphi, Precess,hc1s,ht1s,h1s)
+function pTinh = tinh_ap_suat_tinh(deltaphi, Precess,hc1s,ht1s,h1s)
         % chuong trinh tinh ap suat tinh
 
-        global  m n lrz deltalanda S1s T1s ERR1s GAP1s k1s
+        global  m n lrz deltalanda S1s T1s ERR1s
         global p01s p1s a1s b1s c1s d1s e1s f1s 
-
+        
+        % ma tran he so cho phan hydrostatic
+        p01s = zeros(m+1,n+1);
+        p1s  = zeros(m+1,n+1);
+        a1s  = zeros(m+1,n+1);
+        b1s  = zeros(m+1,n+1);
+        c1s  = zeros(m+1,n+1);
+        d1s  = zeros(m+1,n+1);
+        e1s  = zeros(m+1,n+1);
+        f1s  = zeros(m+1,n+1);
+        
+        
+        GAP1s=1;
+        k1s=1;
+        S1s = 0; 
+        T1s = 0;
         while GAP1s>ERR1s
             k1s = k1s+1;
             for i =1:m+1
