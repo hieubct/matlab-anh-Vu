@@ -187,7 +187,7 @@ function tinhtoanPad()
     Momen=false;
     while(cc<=length(anpha1) && (Q==false || Momen==false))
         capa=Rn*anpha1(cc)/cl;
-        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M);
+        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1);
         kk=1;
         while(kk<=length(Precess1) && Momen==false)
             tinh_ap_suat_dong(deltaphi1,Precess1(kk),hc,ht,h);
@@ -214,7 +214,7 @@ function tinhtoanPad()
     Momen=false;
     while(cc<=length(anpha2) && (Q==false || Momen==false))
         capa=Rn*anpha2(cc)/cl;
-        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M);
+        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M,beta2);
         kk=1;
         while(kk<=length(Precess2) && Momen==false)
             tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h);
@@ -241,7 +241,7 @@ function tinhtoanPad()
  Momen=false;
  while(cc<=length(anpha3) && (Q==false || Momen==false))
      capa=Rn*anpha3(cc)/cl;
-     [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M);
+     [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3);
      kk=1;
      while(k<=length(Precess2) && Momen==false)
          tinh_ap_suat_dong(deltaphi3,Precess2(kk),hc,ht,h);
@@ -274,10 +274,10 @@ function tinhtoanPad()
     
     
     
-    function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi,M)
+    function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi,M,beta)
     %  do day mang dau
     
-    global  m n cl exilon phibd  beta1 exilonn1 capa
+    global  m n cl exilon phibd exilonn1 capa
     
     for i=1:m+1
         for j=1:n+1
@@ -285,13 +285,13 @@ function tinhtoanPad()
             phi(i,j) = phid+(i-1)*deltaphi;
             phic(i,j)= phid+(i-1+1/2)*deltaphi;
             phit(i,j)= phid+(i-1-1/2)*deltaphi;
-            h(i,j) = 1+exilon*cos(phi(i,j)-phibd)-M*cos(phi(i,j)-beta1)+capa*sin(phid-phi(i,j));
-            hc(i,j) = 1+exilon*cos(phic(i,j)-phibd)-M*cos(phic(i,j)-beta1)+capa*sin(phid-phic(i,j));
-            ht(i,j) = 1+exilon*cos(phit(i,j)-phibd)-M*cos(phit(i,j)-beta1)+capa*sin(phid-phit(i,j));
+            h(i,j) = 1+exilon*cos(phi(i,j)-phibd)-M*cos(phi(i,j)-beta)+capa*sin(phid-phi(i,j));
+            hc(i,j) = 1+exilon*cos(phic(i,j)-phibd)-M*cos(phic(i,j)-beta)+capa*sin(phid-phic(i,j));
+            ht(i,j) = 1+exilon*cos(phit(i,j)-phibd)-M*cos(phit(i,j)-beta)+capa*sin(phid-phit(i,j));
             % phan tinh
-            hs(i,j)  = (exilonn1/cl)*cos(phi(i,j)-beta1)-capa*sin(phid-phi(i,j));
-            hcs(i,j) = (exilonn1/cl)*cos(phi(i,j)-beta1)-capa*sin(phid-phic(i,j));
-            hts(i,j) = (exilonn1/cl)*cos(phi(i,j)-beta1)-capa*sin(phid-phit(i,j));
+            hs(i,j)  = (exilonn/cl)*cos(phi(i,j)-beta)-capa*sin(phid-phi(i,j));
+            hcs(i,j) = (exilonn/cl)*cos(phi(i,j)-beta)-capa*sin(phid-phic(i,j));
+            hts(i,j) = (exilonn/cl)*cos(phi(i,j)-beta)-capa*sin(phid-phit(i,j));
         end
     end
     
