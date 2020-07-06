@@ -19,7 +19,7 @@ function tinhtoanPad()
     
     global m n l R Rt Rn Rlr cb nguy dt N W lrz ld exilon phibd  deltalanda
     
-    global  cbtt1  M capa deltaphi1  S T ERR GAP Ss Ts ERRs GAPs
+    global  cbtt1 capa S T ERR GAP Ss Ts ERRs GAPs
 
     global QQ1 MM1 QQ2 MM2 QQ3 MM3
     
