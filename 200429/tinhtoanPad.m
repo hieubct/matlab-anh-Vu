@@ -19,7 +19,7 @@ function tinhtoanPad()
     
     global m n l R Rt Rn Rlr cb nguy dt N W lrz ld exilon phibd  deltalanda
     
-    global  beta1 exilonn1  cbtt1  M capa deltaphi1  S T ERR GAP Ss Ts ERRs GAPs
+    global  cbtt1  M capa deltaphi1  S T ERR GAP Ss Ts ERRs GAPs
 
     global QQ1 MM1 QQ2 MM2 QQ3 MM3
     
@@ -187,7 +187,7 @@ function tinhtoanPad()
     Momen=false;
     while(cc<=length(anpha1) && (Q==false || Momen==false))
         capa=Rn*anpha1(cc)/cl;
-        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1);
+        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1, exilonn1);
         kk=1;
         while(kk<=length(Precess1) && Momen==false)
             tinh_ap_suat_dong(deltaphi1,Precess1(kk),hc,ht,h);
@@ -214,7 +214,7 @@ function tinhtoanPad()
     Momen=false;
     while(cc<=length(anpha2) && (Q==false || Momen==false))
         capa=Rn*anpha2(cc)/cl;
-        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M,beta2);
+        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M,beta2, exilonn2);
         kk=1;
         while(kk<=length(Precess2) && Momen==false)
             tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h);
@@ -241,7 +241,7 @@ function tinhtoanPad()
  Momen=false;
  while(cc<=length(anpha3) && (Q==false || Momen==false))
      capa=Rn*anpha3(cc)/cl;
-     [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3);
+     [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3, exilonn3);
      kk=1;
      while(k<=length(Precess2) && Momen==false)
          tinh_ap_suat_dong(deltaphi3,Precess2(kk),hc,ht,h);
@@ -274,10 +274,10 @@ function tinhtoanPad()
     
     
     
-    function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi,M,beta)
+    function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi,M,beta,exilonn)
     %  do day mang dau
     
-    global  m n cl exilon phibd exilonn1 capa
+    global  m n cl exilon phibd capa
     
     for i=1:m+1
         for j=1:n+1
