@@ -24,28 +24,6 @@ function tinhtoanPad()
     global QQ1 MM1 QQ2 MM2 QQ3 MM3
     
     
-    
-    
-    
-    
-    
-    
-    
-    anpha1 = 2.6180e-4;%! goc nghieng cua pad1
-    anpha2 = 2.6180e-4;%! goc nghieng cua pad2
-    anpha3 = 0.015*pi/180:(0.001*pi/180):0.025*pi/180;%! goc nghieng cua pad3
-    % anpha1 = 0.015*pi/180:(0.001*pi/180):0.02*pi/180  %! goc nghieng cua pad1
-    %  anpha2 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad2
-    
-    Precess1=0.86:0.02:0.9;  % !áp suất vùng lõm1
-    Precess2=0.86:0.02:0.9;  % !áp suất vùng lõm1
-    Precess3= 0.4:0.02:0.6;  % !áp suất vùng lõm3
-    % Precess1=0.8:0.01:1;  % !áp suất vùng lõm1
-    %  Precess2= 1.6:0.01:2.0;  % !áp suất vùng lõm2
-    
-    
-    
-    
     result1 = [];
     QQ1 = [];
     MM1 = [];
@@ -57,6 +35,17 @@ function tinhtoanPad()
     MM3 = [];
     
     
+    anpha1 = 2.6180e-4;%! goc nghieng cua pad1
+    anpha2 = 2.6180e-4;%! goc nghieng cua pad2
+    anpha3 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad3
+    % anpha1 = 0.015*pi/180:(0.001*pi/180):0.02*pi/180  %! goc nghieng cua pad1
+    %  anpha2 = 0.01*pi/180:(0.001*pi/180):0.03*pi/180;%! goc nghieng cua pad2
+    
+    Precess1= 1;  % !áp suất vùng lõm1
+    Precess2=0.86:0.02:0.9;  % !áp suất vùng lõm1
+    Precess3= 0.4:0.01:0.6;  % !áp suất vùng lõm3
+    % Precess1=0.8:0.01:1;  % !áp suất vùng lõm1
+    %  Precess2= 1.6:0.01:2.0;  % !áp suất vùng lõm2
     
     %* cac thong so ban dau
     l = 150e-3; % chieu dai o
@@ -197,7 +186,7 @@ function tinhtoanPad()
                 %anpha1(cc)
                 Momen = tinh_mo_men(phi11,phi,deltaphi1,1);
                 if(Momen)
-                    result1 = [result1 [anpha1(cc) Precess1(kk)].'];
+                    result1 = [result1 anpha1(cc) Precess1(kk)];
                 end
             end
             kk=kk+1;
@@ -206,58 +195,58 @@ function tinhtoanPad()
     end
     
     
-    % TINH PAD2
-    M = 1-(cbtt2/cl);
+%     % TINH PAD2
+%     M = 1-(cbtt2/cl);
 
-    cc=1;
-    Q=false;
-    Momen=false;
-    while(cc<=length(anpha2) && (Q==false || Momen==false))
-        capa=Rn*anpha2(cc)/cl;
-        [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M);
-        kk=1;
-        while(kk<=length(Precess2) && Momen==false)
-            tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h);
-            tinh_ap_suat_tinh(deltaphi2,Precess2(kk),hcs,hts,hs);
-            Q = tinh_luu_luong(deltaphi2,h,hs,2);
-            if(Q)
-                % anpha2(cc)
-                Momen = tinh_mo_men(phi21,phi,deltaphi2,2);
-                if(MomenM)
-                    result2 = [result2 [anpha2(cc) Precess2(kk)].'];
-                end
-            end
-            kk=kk+1;
-        end
-        cc=cc+1;
-    end
+%     cc=1;
+%     Q=false;
+%     Momen=false;
+%     while(cc<=length(anpha2) && (Q==false || Momen==false))
+%         capa=Rn*anpha2(cc)/cl;
+%         [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M);
+%         kk=1;
+%         while(kk<=length(Precess2) && Momen==false)
+%             tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h);
+%             tinh_ap_suat_tinh(deltaphi2,Precess2(kk),hcs,hts,hs);
+%             Q = tinh_luu_luong(deltaphi2,h,hs);
+%             if(Q)
+%                 % anpha2(cc)
+%                 Momen = tinh_mo_men(phi21,phi,deltaphi2);
+%                 if(MomenM)
+%                     result2 = [result2 anpha2(cc) Precess2(kk)];
+%                 end
+%             end
+%             kk=kk+1;
+%         end
+%         cc=cc+1;
+%     end
 
 
- % TINH PAD 3
-    M = 1-(cbtt3/cl);
+%  % TINH PAD 3
+%     M = 1-(cbtt3/cl);
 
- cc=1;
- Q=false;
- Momen=false;
- while(cc<=length(anpha3) && (Q==false || Momen==false))
-     capa=Rn*anpha3(cc)/cl;
-     [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M);
-     kk=1;
-     while(k<=length(Precess2) && Momen==false)
-         tinh_ap_suat_dong(deltaphi3,Precess2(kk),hc,ht,h);
-         tinh_ap_suat_tinh(deltaphi3,Precess2(kk),hcs,hts,hs);
-         Q = tinh_luu_luong(deltaphi3,h,hs,3);
-         if(Q)
-            %  anpha3(cc)
-             Momen = tinh_mo_men(phi31,phi,deltaphi3,3);
-             if(Momen)
-                 result3 = [result3 [anpha2(cc) Precess2(kk)].'];
-             end
-         end
-         kk=kk+1;
-     end
-     cc=cc+1;
- end
+%  cc=1;
+%  Q=false;
+%  Momen=false;
+%  while(cc<=length(anpha3) && (Q==false || Momen==false))
+%      capa=Rn*anpha3(cc)/cl;
+%      [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M);
+%      kk=1;
+%      while(k<=length(Precess2) && Momen==false)
+%          tinh_ap_suat_dong(deltaphi3,Precess2(kk),hc,ht,h);
+%          tinh_ap_suat_tinh(deltaphi3,Precess2(kk),hcs,hts,hs);
+%          Q = tinh_luu_luong(deltaphi3,h,hs);
+%          if(Q)
+%             %  anpha3(cc)
+%              Momen = tinh_mo_men(phi31,phi,deltaphi3);
+%              if(Momen)
+%                  result3 = [result3 anpha2(cc) Precess2(kk)];
+%              end
+%          end
+%          kk=kk+1;
+%      end
+%      cc=cc+1;
+%  end
     
     
     QQ1
@@ -459,7 +448,7 @@ function tinhtoanPad()
     elseif(index==2)
         QQ2 = [QQ3 [Qd Qs].'];
     elseif(index==3)
-        QQ3 = [QQ3 [Qd Qs].'];
+        QQ3 = [QQ3 transpose[Qd Qs]];
     end
     % KIEM TRA CAN BANG LUU LUONG.
     if(abs(Qd-Qs)<=0.005)
@@ -515,16 +504,20 @@ function tinhtoanPad()
                 Mso4=Mso4-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
             end
         end
-
+        
+        
+        
         Ms=Msr+Mso1+Mso2+Mso3+Mso4;
 
 
+
+
     if(index==1)
-        MM1 = [MM1 [Md Ms].'];
+        MM1 = [MM1 transpose[Md Ms]];
     elseif(index==2)
-        MM2 = [MM2 [Md Ms].'];
+        MM2 = [MM2 transpose[Md Ms]];
     elseif(index==3)
-        MM3 = [MM3 [Md Ms].'];
+        MM3 = [MM3 transpose[Md Ms]];
     end
     if(abs(Md-Ms)<=0.001)
         Momen=true;
