@@ -174,15 +174,14 @@ function tinhtoanPad()
 
 
 
-    fx=0;
-    fy=0;
+    
     ss=1;
-    pDong1 = zeros(m+1,n+1);
-    pDong2 = zeros(m+1,n+1);
-    pDong3 = zeros(m+1,n+1);
-
-
     while ss>0.0001
+        fx=0;
+        fy=0;
+        pDong1 = zeros(m+1,n+1);
+        pDong2 = zeros(m+1,n+1);
+        pDong3 = zeros(m+1,n+1);
         phibd=phibd-atan(fx/fy);
         % TINH PAD1-----------------------------------------------------------------
         M = 1-(cbtt1/cl);
