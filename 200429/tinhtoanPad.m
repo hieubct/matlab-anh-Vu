@@ -21,9 +21,9 @@ function tinhtoanPad()
 
     global  cbtt1 cl capa S T ERR GAP Ss Ts ERRs GAPs
     
-    global p0 p a b c d e f
+    % global p0 p a b c d e f
     
-    global p0s ps as bs cs ds es fs
+    % global p0s ps as bs cs ds es fs
 
     global QQ1 MM1 QQ2 MM2 QQ3 MM3
     
@@ -154,27 +154,27 @@ function tinhtoanPad()
     k3s = 1; % he so lap
 
 
-    % ma tran he so ban dau cho phan hydrodynamic
-    p0 = zeros(m+1,n+1);
-    p = zeros(m+1,n+1);
-    a = zeros(m+1,n+1);
-    b = zeros(m+1,n+1);
-    c = zeros(m+1,n+1);
-    d = zeros(m+1,n+1);
-    e = zeros(m+1,n+1);
-    f = zeros(m+1,n+1);
+%     % ma tran he so ban dau cho phan hydrodynamic
+%     p0 = zeros(m+1,n+1);
+%     p = zeros(m+1,n+1);
+%     a = zeros(m+1,n+1);
+%     b = zeros(m+1,n+1);
+%     c = zeros(m+1,n+1);
+%     d = zeros(m+1,n+1);
+%     e = zeros(m+1,n+1);
+%     f = zeros(m+1,n+1);
 
 
 
-    % ma tran he so cho phan hydrostatic
-    p0s = zeros(m+1,n+1);
-    ps  = zeros(m+1,n+1);
-    as  = zeros(m+1,n+1);
-    bs  = zeros(m+1,n+1);
-    cs  = zeros(m+1,n+1);
-    ds  = zeros(m+1,n+1);
-    es  = zeros(m+1,n+1);
-    fs  = zeros(m+1,n+1);
+    % % ma tran he so cho phan hydrostatic
+    % p0s = zeros(m+1,n+1);
+    % ps  = zeros(m+1,n+1);
+    % as  = zeros(m+1,n+1);
+    % bs  = zeros(m+1,n+1);
+    % cs  = zeros(m+1,n+1);
+    % ds  = zeros(m+1,n+1);
+    % es  = zeros(m+1,n+1);
+    % fs  = zeros(m+1,n+1);
 
 
 
@@ -339,7 +339,7 @@ end
 function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h)
     % ch??ng trinh tinh ap suat dong
     global  m n ld  deltalanda ERR
-    global p0 p a b c d e f
+    % global p0 p a b c d e f
 
     % ma tran he so ban dau cho phan hydrodynamic
     p0 = zeros(m+1,n+1);
@@ -392,11 +392,11 @@ function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h)
 end
 
 
-function pTinh = tinh_ap_suat_tinh(deltaphi, Precess,hcs,hts,hs)
+function ps = tinh_ap_suat_tinh(deltaphi, Precess,hcs,hts,hs)
     % chuong trinh tinh ap suat tinh
 
     global  m n lrz deltalanda Ss Ts ERRs
-    global p0s ps as bs cs ds es fs
+    % global p0s ps as bs cs ds es fs
 
     % ma tran he so cho phan hydrostatic
     p0s = zeros(m+1,n+1);
