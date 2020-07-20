@@ -211,7 +211,7 @@ function tinhtoanPad()
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1, exilonn1);
             kk=1;
             while(kk<=length(Precess1) && Q==false )
-                pDong = tinh_ap_suat_dong(deltaphi1,Precess1(kk),hc,ht,h);
+                pDong = tinh_ap_suat_dong(deltaphi1,Precess1(kk),hc,ht,h,1);
                 pTinh = tinh_ap_suat_tinh(deltaphi1,Precess1(kk),hcs,hts,hs);
                 Q = tinh_luu_luong(deltaphi1,h,hs,pDong,pTinh,1);
                 if(Q)
@@ -226,15 +226,19 @@ function tinhtoanPad()
             end
             cc=cc+1;
         end
+        
+        % pDong1=pDong;
 
-        assignin('base','QQ1',QQ1);
-        assignin('base','MM1',MM1);
-        assignin('base','result1',result1);
-        assignin('base','pDong',pDong);
-        assignin('base','pTinh',pTinh);
-        assignin('base','deltaphi1',deltaphi1);
-        assignin('base','h',h);
-        assignin('base','hs',hs);
+
+
+        % assignin('base','QQ1',QQ1);
+        % assignin('base','MM1',MM1);
+        % assignin('base','result1',result1);
+        % assignin('base','pDong',pDong);
+        % assignin('base','pTinh',pTinh);
+        % assignin('base','deltaphi1',deltaphi1);
+        % assignin('base','h',h);
+        % assignin('base','hs',hs);
 
         
 
@@ -244,12 +248,12 @@ function tinhtoanPad()
         Q=false;
         Momen=false;
         Pad2=false;
-        while(cc<=length(anpha2) && Momen==false && Pad1==true)
+        while(cc<=length(anpha2) && Momen==false)
             capa=Rn*anpha2(cc)/cl;
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M,beta2, exilonn2);
             kk=1;
             while(kk<=length(Precess2) && Q==false)
-                pDong = tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h);
+                pDong = tinh_ap_suat_dong(deltaphi2,Precess2(kk),hc,ht,h,2);
                 pTinh = tinh_ap_suat_tinh(deltaphi2,Precess2(kk),hcs,hts,hs);
                 Q = tinh_luu_luong(deltaphi2,h,hs,pDong,pTinh,2);
                 if(Q)
@@ -258,7 +262,7 @@ function tinhtoanPad()
                     if(Momen)
                         Pad2=true;
                         pDong2=pDong;
-                        result2 = [[anpha2(cc) Precess2(kk)].'];
+                        result2 = [anpha2(cc) Precess2(kk)].';
                     end
                 end
                 kk=kk+1;
@@ -267,9 +271,12 @@ function tinhtoanPad()
         end
 
 
-        QQ2
-        MM2
-        result2
+        % QQ2
+        % MM2
+        % result2
+        assignin('base','QQ2',QQ2);
+        assignin('base','MM2',MM2);
+        assignin('base','result2',result2);
 
 
 
@@ -279,12 +286,12 @@ function tinhtoanPad()
         Q=false;
         Momen=false;
         Pad3 = false;
-        while(cc<=length(anpha3) && Momen==false && Pad1==true && Pad2==true)
+        while(cc<=length(anpha3) && Momen==false)
             capa=Rn*anpha3(cc)/cl;
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3, exilonn3);
             kk=1;
             while(kk<=length(Precess3) && Q==false)
-                pDong = tinh_ap_suat_dong(deltaphi3,Precess3(kk),hc,ht,h);
+                pDong = tinh_ap_suat_dong(deltaphi3,Precess3(kk),hc,ht,h,3);
                 pTinh = tinh_ap_suat_tinh(deltaphi3,Precess3(kk),hcs,hts,hs);
                 Q = tinh_luu_luong(deltaphi3,h,hs,pDong,pTinh,3);
                 if(Q)
@@ -301,29 +308,52 @@ function tinhtoanPad()
             cc=cc+1;
         end
 
-        QQ3
-        MM3
-        result3
+        % pDong3 = pDong;
 
-        if(Pad1==true && Pad2==true && Pad3==true)
-            % %tính fx, fy pad1
-            % [fxp,fyp]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda);
-            % fx=fxp;
-            % fy=fyp;
-            % %tính fx, fy pad2
-            % [fxp,fyp]=tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda);
-            % fx=fx+fxp;
-            % fy=fy+fyp;
-            % %tính fx, fy pad3
-            % [fxp,fyp]=tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
-            % fx=fx+fxp;
-            % fy=fy+fyp;
-            [fx,fy]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda)+tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda)+tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
-            ss=abs(fx/fy);
-        
-        else
-            break;
+        % QQ3
+        % MM3
+        % result3
+
+
+        % ! Nếu Pad1 và pad3 False
+        if(Pad1==false)
+            M = 1-(cbtt1/cl);
+            anpha1 = 0;
+            Precess1 = 0;
+            capa=Rn*anpha1/cl;
+            [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1, exilonn1);
+            pDong = tinh_ap_suat_dong(deltaphi1,Precess1,hc,ht,h,1);
+            pDong1=pDong;
         end
+
+        if(Pad3 == false)
+            M = 1-(cbtt3/cl);
+            anpha3 = 0;
+            Precess3 = 0;
+            capa=Rn*anpha3/cl;
+            [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3, exilonn3);
+            pDong = tinh_ap_suat_dong(deltaphi3,Precess3,hc,ht,h,3);
+            pDong3=pDong;
+        end
+
+
+
+        %tính fx, fy pad1
+        [fxp,fyp]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda);
+        fx=fxp;
+        fy=fyp;
+        %tính fx, fy pad2
+        [fxp,fyp]=tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda);
+        fx=fx+fxp;
+        fy=fy+fyp;
+        %tính fx, fy pad3
+        [fxp,fyp]=tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
+        fx=fx+fxp;
+        fy=fy+fyp;
+        % [fx,fy]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda)+tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda)+tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
+        ss=abs(fx/fy);
+        
+        
     end
     phibd
 end
@@ -355,7 +385,7 @@ end
 
 
 
-function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h)
+function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h, index)
     % ch??ng trinh tinh ap suat dong
     global  m n ld  deltalanda ERR
     % global p0 p a b c d e f
@@ -382,7 +412,7 @@ function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h)
             for j =1:n+1
                 if i==1||i==m+1||j==1||j==n+1
                     p(i,j)=0;
-                elseif i>=80&&i<=82&&j>=45&&j<=47
+                elseif i>=80&&i<=82&&j>=45&&j<=47 && index==2
                     p(i,j)=Precess;
                 else
                     a(i,j)= hc(i,j)^3;
