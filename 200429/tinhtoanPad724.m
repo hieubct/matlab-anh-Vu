@@ -1,5 +1,5 @@
-%%CHUONG TRINH NGAY 21/7
-function tinhtoanPad()
+%%CHUONG TRINH NGAY 24/7
+function tinhtoanPad724()
     clc;
     format long g
     %! Neu phuong trinh can bang luu luong khong thoa man
@@ -20,15 +20,12 @@ function tinhtoanPad()
     % global p0s ps as bs cs ds es fs
     global QQ1 MM1 QQ2 MM2 QQ3 MM3
 
-
-    
     anpha1 = 0;%! goc nghieng cua pad1
-    anpha2 = 0.005*pi/180:(0.001*pi/180):0.007*pi/180;%! goc nghieng cua pad2
+    anpha2 = 0.017*pi/180:(0.0002*pi/180):0.018*pi/180;%! goc nghieng cua pad2
     anpha3 = 0;%! goc nghieng cua pad3
-    Precess1=0.2;  % !Ã¡p suáº¥t vÃ¹ng lÃµm1
-    Precess2=0.05:0.005:1.2;  % !Ã¡p suáº¥t vÃ¹ng lÃµm1
-    Precess3= 0.2;  % !Ã¡p suáº¥t vÃ¹ng lÃµm3
-
+    %Precess1=0.2;  % !áp su?t vùng lõm1
+    Precess2=7.8:0.05:8.3;  % !áp su?t vùng lõm1
+    %Precess3= 0.2;  % !áp su?t vùng lõm3
     result1 = [];
     QQ1 = [];
     MM1 = [];
@@ -38,7 +35,6 @@ function tinhtoanPad()
     result3 = [];
     QQ3 = [];
     MM3 = [];
-
     %* cac thong so ban dau
     l = 150e-3; % chieu dai o
     R = 100e-3; % ban kinh truc
@@ -58,8 +54,8 @@ function tinhtoanPad()
     ld = l/dt; % ti le chieu dai tren duong kinh
     n = 90; % so luoi theo phuong doc truc
     %e1 =0.75e-04;% 0.1e-3; % do lech tam ban dau
-    exilon = 0.05;%e1/c1; % ti le lech tam
-    phibd = 0.9059; % goc lech ban dau cua truc
+    exilon = 0.25;%e1/c1; % ti le lech tam
+    phibd = 0.6056; % goc lech ban dau cua truc
     deltalanda = 2/n; % so luoi theo phuong doc truc
     % thong so pad1
     phi11 = 3*pi/180; % goc dau cua pad
@@ -72,7 +68,6 @@ function tinhtoanPad()
     deltaphi1 = (phi12-phi11)/m; %@ chia luoi theo chu vi
     S = 0;
     T = 0;
-
     ERR = 10e-4;
     GAP =1;
     k = 1; % he so lap
@@ -81,7 +76,6 @@ function tinhtoanPad()
     ERRs = 10e-4;
     GAPs =1;
     ks = 1; % he so lap
-
     % thong so pad2
     phi21 = 123*pi/180; % goc dau cua pad
     phi22 = 237*pi/180;% goc sau cua pad
@@ -100,7 +94,6 @@ function tinhtoanPad()
     ERR2s = 10e-4;
     GAP2s =1;
     k2s = 1; % he so lap
-
     % thong so pad3
     phi31 = 243*pi/180; % goc dau cua pad
     phi32 = 357*pi/180;% goc sau cua pad
@@ -119,11 +112,6 @@ function tinhtoanPad()
     ERR3s = 10e-4;
     GAP3s =1;
     k3s = 1; % he so lap
-     fx=0.001;
-     fy=1;
-      ss=abs(fx/fy);
-    while (ss>0.005)
-        phibd=phibd-atan(fx/fy);
         fx=0;
         fy=0;
         pDong=0;
@@ -132,18 +120,16 @@ function tinhtoanPad()
         pDong3 = zeros(m+1,n+1);
         % TINH PAD1-----------------------------------------------------------------
             M = 1-(cbtt1/cl);
-            capa=Rn*anpha1/cl;
+            capa=Rt*anpha1/cl;
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi11,deltaphi1,M,beta1, exilonn1);
              pDong = tinh_ap_suat_dong_motba(deltaphi1,hc,ht,h);
              pDong1=pDong;
             % TINH PAD 3-----------------------------------------------------------------
              M = 1-(cbtt3/cl);
-            capa=Rn*anpha3/cl;
+            capa=Rt*anpha3/cl;
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi31,deltaphi3,M,beta3, exilonn3);
              pDong = tinh_ap_suat_dong_motba(deltaphi3,hc,ht,h);
              pDong3=pDong;
-
-                       
         % TINH PAD2-----------------------------------------------------------------
            M = 1-(cbtt2/cl);
            cc=1;
@@ -151,19 +137,21 @@ function tinhtoanPad()
           Momen=false;
           Pad2=false;
         while(cc<=length(anpha2) && Momen==false)
-            capa=Rn*anpha2(cc)/cl;
+            capa=Rt*anpha2(cc)/cl;
             [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phi21,deltaphi2,M,beta2, exilonn2);
-            pDong = tinh_ap_suat_dong(deltaphi2,0,hc,ht,h);
+            pDong = tinh_ap_suat_dong_motba(deltaphi2,hc,ht,h);
+            pDong2=pDong;
             kk=1;
             while(kk<=length(Precess2) && Q==false)
+                pDong2;
                 pTinh = tinh_ap_suat_tinh(deltaphi2,Precess2(kk),hcs,hts,hs);
-                Q = tinh_luu_luong(deltaphi2,h,hs,pDong,pTinh,Precess2(kk));
+                Q = tinh_luu_luong(deltaphi2,h,hs,pDong2,pTinh,Precess2(kk),2);
                 if(Q)
                     % anpha2(cc)
-                    Momen = tinh_mo_men(phi21,phi,deltaphi2,pDong,pTinh);
+                    Momen = tinh_mo_men(phi21,phi,deltaphi2,pDong,pTinh,2);
                     if(Momen)
                         Pad2=true;
-                        pDong2=pDong;
+                        pDong2;
                         result2 = [anpha2(cc) Precess2(kk)].';
                     end
                 end
@@ -171,32 +159,28 @@ function tinhtoanPad()
             end
             cc=cc+1;
         end
-        % QQ2
-        % MM2
-        % result2
+         QQ2
+         MM2
+         result2
         assignin('base','QQ2',QQ2);
         assignin('base','MM2',MM2);
         assignin('base','result2',result2);
-
-           
-        %tÃ­nh fx, fy pad1
+        %tính fx, fy pad1
         [fxp,fyp]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda);
         fx=fxp;
         fy=fyp;
-        %tÃ­nh fx, fy pad2
+        %tính fx, fy pad2
         [fxp,fyp]=tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda);
         fx=fx+fxp;
         fy=fy+fyp;
-        %tÃ­nh fx, fy pad3
+        %tính fx, fy pad3
         [fxp,fyp]=tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
         fx=fx+fxp;
         fy=fy+fyp;
         % [fx,fy]=tinh_luc(m,n,pDong1,phi11,deltaphi1,deltalanda)+tinh_luc(m,n,pDong2,phi21,deltaphi2,deltalanda)+tinh_luc(m,n,pDong3,phi31,deltaphi3,deltalanda);
         ss=abs(fx/fy);
-    end
     phibd
 end
-
 function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi,M,beta,exilonn)
     %  do day mang dau
     global  m n cl exilon phibd capa
@@ -216,7 +200,6 @@ function [phi,phic,phit,h,hc,ht,hs,hcs,hts] = tinh_do_day_mang_dau(phid,deltaphi
         end
     end
 end
-
 function p = tinh_ap_suat_dong(deltaphi,Precess,hc,ht,h)
     % ch??ng trinh tinh ap suat dong
     global  m n ld  deltalanda ERR
@@ -343,7 +326,7 @@ function ps = tinh_ap_suat_tinh(deltaphi, Precess,hcs,hts,hs)
                 if j==1||j==n+1||i==1||i==m+1
                     ps(i,j)=0;
                     %p(i,j)=0;%p(i,j+1);
-                elseif i>=53&&i<=109&&j>=23&&j<=69
+                elseif i>=46&&i<=116&&j>=19&&j<=73
                     ps(i,j)=Precess;
                 else
                     as(i,j)= hcs(i,j)^3;
@@ -369,8 +352,7 @@ function ps = tinh_ap_suat_tinh(deltaphi, Precess,hcs,hts,hs)
         p0s=ps;
     end
 end
-
-function Q = tinh_luu_luong(deltaphi,h,hs,p,ps,Precess)
+function Q = tinh_luu_luong(deltaphi,h,hs,p,ps,Precess,index)
     % Can bang luu luong
     global  n  ld deltalanda
     global QQ1 QQ2 QQ3
@@ -380,48 +362,45 @@ function Q = tinh_luu_luong(deltaphi,h,hs,p,ps,Precess)
     Qs1=0;
     Qs2=0;
     Qs3=0;
-    for j=(round(n/2-1):(n/2+2))
+    for j=44:48
+     %Qd11=Qd11+(1/2)*ld^2*((h1(79,44)+(1/3)*(h1(79,44))^3*((-3*p1(79,j)+4*p1(78,j)-p1(77,j)))/(2*deltaphi))*(deltalanda));
         % Qd1=Qd1+(1/2)*ld^2*((h(79,44)-(1/3)*(h(79,44))^3*((-3*p(78,j)+4*p(79,j)-p(80,j)))/(2*deltaphi))*(deltalanda));
-        Qd1=Qd1+(1/2)*ld^2*((h(79,44)-(1/3)*(h(79,44))^3*((-3*p(78,j)+4*Precess-p(80,j)))/(2*deltaphi))*(deltalanda));
+        Qd1=Qd1+(1/2)*ld^2*(h(79,43)-((1/3)*(h(79,43)^3)*(3*Precess-4*p(78,j)+p(77,j))/(2*deltaphi)))*deltalanda;
         % Qd2=Qd2+(1/2)*ld^2*((-h(83,44)-(1/3)*(h(83,44))^3*((3*p(84,j)-4*p(83,j)+p(82,j)))/(2*deltaphi))*(deltalanda));
-        Qd2=Qd2+(1/2)*ld^2*((-h(83,44)-(1/3)*(h(83,44))^3*((3*p(84,j)-4*Precess+p(82,j)))/(2*deltaphi))*(deltalanda));
+        Qd2=Qd2+(1/2)*ld^2*(-h(83,43)-((1/3)*(h(83,43)^3)*(-3*Precess+4*p(84,j)-p(85,j))/(2*deltaphi)))*deltalanda;
     end
-    for j=44
+    for j=43
         for i=79:83
-            Qd3=Qd3-(1/6)*(h(i,44))^3*(3*p(i,44)-4*p(i,43)+p(i,42))*(deltaphi/deltalanda);
+            Qd3=Qd3-(1/6)*(h(i,43))^3*(3*Precess-4*p(i,43)+p(i,42))*(deltaphi/deltalanda);
         end
     end
-    Qd=Qd1+Qd2+Qd3;
-    for i=53
-        for j=23:69
-            Qs1=Qs1-(1/2)*ld^2*((1/3)*(hs(53,23))^3*((-3*ps(53,j)+4*ps(52,j)-ps(51,j))/(2*deltaphi))*(deltalanda));
-            Qs2=Qs2-(1/2)*ld^2*(-(1/3)*(hs(109,23))^3*((3*ps(109,j)-4*ps(110,j)+ps(111,j))/(2*deltaphi))*(deltalanda));
+    Qd=Qd1+Qd2+Qd3;    
+    for i=46
+        for j=19:73
+            Qs1=Qs1-(1/2)*ld^2*((1/3)*(hs(46,19))^3*((-3*ps(46,j)+4*ps(45,j)-ps(44,j))/(2*deltaphi))*(deltalanda));
+            Qs2=Qs2-(1/2)*ld^2*(-(1/3)*(hs(116,19))^3*((3*ps(116,j)-4*ps(117,j)+ps(118,j))/(2*deltaphi))*(deltalanda));
         end
     end
-    for j=23
-        for i=53:109
+    for j=19
+        for i=46:116
             Qs3=Qs3+(1/6)*((hs(i,j))^3)*(3*ps(i,j)-4*ps(i,j-1)+ps(i,j-2))*(deltaphi/deltalanda);
         end
     end
     Qs=Qs1+Qs2+Qs3;
-
-    %if(index==1)
-        %QQ1 = [QQ1 [Qd Qs].'];
-    %elseif(index==2)
-        %QQ2 = [QQ2 [Qd Qs].'];
-    %elseif(index==3)
-        %QQ3 = [QQ3 [Qd Qs].'];
-    %end
-
+    if(index==1)
+        QQ1 = [QQ1 [Qd Qs].'];
+    elseif(index==2)
+        QQ2 = [QQ2 [Qd Qs].'];
+    elseif(index==3)
+        QQ3 = [QQ3 [Qd Qs].'];
+    end
     % KIEM TRA CAN BANG LUU LUONG.
-    if(abs(Qd-Qs)<=0.00001)
+    if(abs(Qd-Qs)<=0.005)
         Q=true;
     else
         Q=false;
     end
 end
-
-
 function Momen = tinh_mo_men(phid,phi,deltaphi,p,ps,index)
     global  m n R Rn  deltalanda MM1 MM2 MM3
     % can bang momen
@@ -435,56 +414,53 @@ function Momen = tinh_mo_men(phid,phi,deltaphi,p,ps,index)
         for j=1:n+1
             Md=Md-R*p(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
-    end
-    for i=53:109
-        for j=23:69
+    end    
+    for i=46:116
+        for j=19:73
             Msr=Msr-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
     end
-    for i=1:52
+    for i=1:45
         for j=1:n+1
             Mso1=Mso1-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
     end
-    for i=110:m+1
+    for i=117:m+1
         for j=1:n+1
             Mso2=Mso2-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
     end
-    for i=53:109
-        for j=1:22
+    for i=46:116
+        for j=1:18
             Mso3=Mso3-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
     end
-    for i=53:109
-        for j=69:n+1
+    for i=46:116
+        for j=73:n+1
             Mso4=Mso4-Rn*ps(i,j)*sin(phid-phi(i,j))*deltaphi*deltalanda;
         end
     end
     Ms=Msr+Mso1+Mso2+Mso3+Mso4;
-   % if(index==1)
-        %MM1 = [MM1 [Md Ms].'];
-   % elseif(index==2)
-        %MM2 = [MM2 [Md Ms].'];
-    %elseif(index==3)
-       % MM3 = [MM3 [Md Ms].'];
-    %end
-
-    if(abs(Md-Ms)<=0.001)
+   if(index==1)
+        MM1 = [MM1 [Md Ms].'];
+   elseif(index==2)
+        MM2 = [MM2 [Md Ms].'];
+    elseif(index==3)
+       MM3 = [MM3 [Md Ms].'];
+    end
+    if(abs((Md-Ms)/Md)<=0.05||abs((Md-Ms)/Ms)<=0.05)
         Momen=true;
     else
         Momen=false;
     end
 end
-
-
 function [fxp,fyp] = tinh_luc(m,n,p, phid, deltaphi, deltalanda)
     fxp=0;
     fyp=0;
     for i=1:m+1
         for j=1:n+1
-            fxp=fxp-p(i,j)*sin(phid+(i-1)*deltaphi)*deltaphi*deltalanda;
-            fyp=fyp-p(i,j)*cos(phid+(i-1)*deltaphi)*deltaphi*deltalanda;
+            fxp=fxp+p(i,j)*sin(phid+(i-1)*deltaphi)*deltaphi*deltalanda;
+            fyp=fyp+p(i,j)*cos(phid+(i-1)*deltaphi)*deltaphi*deltalanda;
         end
     end
 end
