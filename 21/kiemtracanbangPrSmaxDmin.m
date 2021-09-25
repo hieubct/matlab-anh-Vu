@@ -17,8 +17,8 @@ lrz=2*Rn/l;
 
 
 %%
-% trong ch??ng trình này, mình m?i ch? tìm ???c Precess2 theo ?i?u ki?n cân b?ng l?u l??ng (Qd2=Qs2), sau khi thu ???c Precess2, mình s? ti?n hành ki?m tra ?i?u ki?n cân b?ng mô men, n?u Md2#Ms2 thì l?i thay ??i anpha2 và ch?y l?i ch??ng trình, c? nh? v?y ?? tìm ra anpha2 th?a mãn ?k Md2=Ms2 (Lúc này Precess2 c?ng s? ??t giá tr? m?i).
-% Bây gi? a mu?n tìm anpha2 t? ??ng (th?a mãn ?k cân b?ng momen) b?ng cách s? d?ng thu?t toán tìm nghi?m gi?ng nh? tìm Precess2(theo ?k cân b?ng l?u l??ng).
+% trong ch??ng trï¿½nh nï¿½y, mï¿½nh m?i ch? tï¿½m ???c Precess2 theo ?i?u ki?n cï¿½n b?ng l?u l??ng (Qd2=Qs2), sau khi thu ???c Precess2, mï¿½nh s? ti?n hï¿½nh ki?m tra ?i?u ki?n cï¿½n b?ng mï¿½ men, n?u Md2#Ms2 thï¿½ l?i thay ??i anpha2 vï¿½ ch?y l?i ch??ng trï¿½nh, c? nh? v?y ?? tï¿½m ra anpha2 th?a mï¿½n ?k Md2=Ms2 (Lï¿½c nï¿½y Precess2 c?ng s? ??t giï¿½ tr? m?i).
+% Bï¿½y gi? a mu?n tï¿½m anpha2 t? ??ng (th?a mï¿½n ?k cï¿½n b?ng momen) b?ng cï¿½ch s? d?ng thu?t toï¿½n tï¿½m nghi?m gi?ng nh? tï¿½m Precess2(theo ?k cï¿½n b?ng l?u l??ng).
 
 %%
 
@@ -29,17 +29,37 @@ M =0.57;%
 M1 = 0.57;%1-(cbtt1/cl);
 M2 = 0.57;%1-(cbtt2/cl);
 M3 = 0.57;%1-(cbtt3/cl);
-anpha1 = 0;%0.035*pi/180;%0.009*pi/180;% goc nghieng cua pad1
-anpha2 =0.0117*pi/180;%0.0167*pi/180;%0.0165*pi/180;%0.0168*pi/180;%0.017*pi/180;%0.016*pi/180;%0.015*pi/180;%0.018*pi/180;%goc nghieng cua pad2
+anpha11 = 0;%0.035*pi/180;%0.009*pi/180;% goc nghieng cua pad1
+anpha12 = 0.1*pi/180;%0.009*pi/180;% goc nghieng cua pad1
+anpha1 = (anpha11+anpha12)/2;  %0.0167*pi/180;%0.0165*pi/180;%0.0168*pi/180;%0.017*pi/180;%0.016*pi/180;%0.015*pi/180;%0.018*pi/180;%goc nghieng cua pad2
+
+anpha21 = 0.002*pi/180;
+anpha22 = 0.05*pi/180;
+anpha2 = (anpha21+anpha22)/2;  %0.0167*pi/180;%0.0165*pi/180;%0.0168*pi/180;%0.017*pi/180;%0.016*pi/180;%0.015*pi/180;%0.018*pi/180;%goc nghieng cua pad2
+%anpha2 =0.0117*pi/180;%0.0167*pi/180;%0.0165*pi/180;%0.0168*pi/180;%0.017*pi/180;%0.016*pi/180;%0.015*pi/180;%0.018*pi/180;%goc nghieng cua pad2
+
+
+
+
+        % hs_anpha2 = (anpha2*180)/pi;
+        % hs_anpha21 = (anpha21*180)/pi;
+        % hs_anpha22 = (anpha22*180)/pi;
+        
+        
+        
+
+
 anpha3 = 0;% goc nghieng cua pad3
 exilon = 0.2;% ti le lech tam
 phibd =0.985;%0.9;%0.95;%1;%1.23;% goc lech ban dau cua truc
-Precess21=1.43;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-Precess22=1.43;%0.9;%0.7;%1;%
 
-capa1=Rt*anpha1/cl;
-capa2=Rt*anpha2/cl;
-capa3=Rt*anpha3/cl;
+
+Precess11=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+Precess12=2.5;%0.9;%0.7;%1;%
+Precess21=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+Precess22=2;%0.9;%0.7;%1;%
+
+
 ld = l/d1; % ti le chieu dai tren duong kinh
 m = 204; % so luoi theo chu vi
 n = 150; % so luoi theo phuong doc truc
@@ -60,9 +80,20 @@ deltalanda = 2/n; % so luoi theo phuong doc truc
 deltaphi = (phi22-phi21)/m; % chia luoi theo chu vi
 
 err = 10e-3;
-Precess2 = (Precess21+Precess22)/2
+
+
+Precess1 = (Precess11+Precess12)/2;
+Precess2 = (Precess21+Precess22)/2;
+kk1=0;
+cc1=0;
 k=0;
+c=0;
 while true
+    
+    capa1=Rt*anpha1/cl;
+    capa2=Rt*anpha2/cl;
+    capa3=Rt*anpha3/cl;
+    
     % ma tran he so ban dau cho phan hydrodynamic
     p01 = zeros(m+1,n+1);
     p1 = zeros(m+1,n+1);
@@ -228,6 +259,56 @@ while true
         end
         p01s=p1s;
     end
+    
+    
+    Qd11=0;
+    Qd12=0;
+    Qd13=0;
+    Qs11=0;
+    Qs12=0;
+    Qs13=0;
+    for j=75:77%102:104   73:79%100:106
+        %Qd21=Qd21+(1/2)*ld^2*(h2(100,72)-((1/3)*(h2(100,72)^3)*(3*Precess2-4*p2(99,j)+p2(98,j))/(2*deltaphi)))*deltalanda;
+        Qd11=Qd11+(1/2)*ld^2*(h1(102,74)-((1/3)*(h1(102,74)^3)*(3*Precess1-4*p1(101,j)+p1(100,j))/(2*deltaphi)))*deltalanda;
+        %Qd22=Qd22+(1/2)*ld^2*(-h2(106,72)-((1/3)*(h2(106,72)^3)*(-3*Precess2+4*p2(107,j)-p2(108,j))/(2*deltaphi)))*deltalanda;
+        Qd12=Qd12+(1/2)*ld^2*(-h1(104,74)-((1/3)*(h1(104,74)^3)*(-3*Precess1+4*p1(107,j)-p1(106,j))/(2*deltaphi)))*deltalanda;
+    end
+    for j=74%j=72
+        for i=102:104%
+            %Qd23=Qd23-(1/6)*(h2(i,44))^3*(3*Precess2-4*p2(i,44)+p2(i,43))*(deltaphi/deltalanda);
+            Qd13=Qd13-(1/6)*(h1(i,74))^3*(3*Precess1-4*p1(i,74)+p1(i,73))*(deltaphi/deltalanda);
+        end
+    end
+    Q1d=Qd11+Qd12+Qd13;
+    %for i=51
+    % for j=16:76
+    %Qs21=Qs21-(1/2)*ld^2*((1/3)*(h2s(51,16))^3*((-3*p2s(51,j)+4*p2s(50,j)-p2s(49,j))/(2*deltaphi))*(deltalanda));
+    %Qs22=Qs22-(1/2)*ld^2*(-(1/3)*(h2s(111,16))^3*((3*p2s(111,j)-4*p2s(112,j)+p2s(113,j))/(2*deltaphi))*(deltalanda));
+    %end
+    %end
+    %i>=62&&i<=144&&j>=31&&j<=121
+    for i=62
+        for j=31:121
+            Qs11=Qs11-(1/2)*ld^2*((1/3)*(h1s(62,31))^3*((-3*p1s(62,j)+4*p1s(61,j)-p1s(60,j))/(2*deltaphi))*(deltalanda));
+            Qs12=Qs12-(1/2)*ld^2*(-(1/3)*(h1s(144,31))^3*((3*p1s(144,j)-4*p1s(145,j)+p1s(146,j))/(2*deltaphi))*(deltalanda));
+        end
+    end
+    %for j=16
+    %   for i=51:111
+    %   Qs23=Qs23+(1/6)*((h2s(i,j))^3)*(3*p2s(i,j)-4*p2s(i,j-1)+p2s(i,j-2))*(deltaphi/deltalanda);
+    %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
+    % end
+    %end
+    for j=31
+        for i=62:144
+            Qs13=Qs13+(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j-1)+p1s(i,j-2))*(deltaphi/deltalanda);
+            %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
+        end
+    end
+    Q1s=Qs11+Qs12+Qs13;
+
+
+
     Md1=0;
     Msr1=0;
     Mso11=0;
@@ -266,356 +347,505 @@ while true
         end
     end
     Ms1=Msr1+Mso11+Mso21+Mso31+Mso41;
-    % Can bang luu luong
+
+    
+    
+    kk1=kk1+1;
+    condition11 = abs((Q1d-Q1s)/Q1d)
+    condition12 = abs((Q1d-Q1s)/Q1s)
+    if(condition11 > err && condition12 > err && kk1<10)
+         %Kiá»ƒm tra náº¿u
+        condition13 = Q1d-Q1s
+        if(condition13 > 0)
+            Precess11 = Precess1
+        else
+            Precess12 = Precess1
+        end
+        Precess1 = (Precess11+Precess12)/2
+        continue
+    end
+    
+    conditionM11 = abs((Md1-Ms1)/Md1);
+    conditionM12 = abs((Md1-Ms1)/Ms1);
+    if(conditionM11 > err && conditionM12 > err)
+        conditionM13 = Md1-Ms1;
+        if(conditionM13 < 0)
+            anpha11 = anpha1;
+        else
+            anpha12 = anpha1;
+        end
+        anpha1 = (anpha11+anpha12)/2;
+                
+        Precess11=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+        Precess12=2.5;%0.9;%0.7;%1;%
+        Precess1 = (Precess11+Precess12)/2
+        kk1=0
+
+        cc1=cc1+1;
+        
+        
+        Md1
+        Ms1
+        hs_anpha1 = (anpha1*180)/pi
+        hs_anpha11 = (anpha11*180)/pi
+        hs_anpha12 = (anpha12*180)/pi
+        
+        disp('---------------');
+        
+        
+        
+        if(cc1==10)
+            break
+        end
+
+        continue
+    end
+    
+    
+    
     %% TINH CHO PAD2
     %  do day mang dau
-    for i=1:m+1
-        for j=1:n+1
-            % phan dong
-            phi2(i,j) = phi21+(i-1)*deltaphi;
-            phic2(i,j)= phi21+(i-1+1/2)*deltaphi;
-            phit2(i,j)= phi21+(i-1-1/2)*deltaphi;
-            h2(i,j) = 1+exilon*cos(phi2(i,j)-phibd)-M2*cos(phi2(i,j)-beta2)+capa2*sin(phi21-phi2(i,j));
-            hc2(i,j) = 1+exilon*cos(phic2(i,j)-phibd)-M2*cos(phic2(i,j)-beta2)+capa2*sin(phi21-phic2(i,j));
-            ht2(i,j) = 1+exilon*cos(phit2(i,j)-phibd)-M2*cos(phit2(i,j)-beta2)+capa2*sin(phi21-phit2(i,j));
-            % phan tinh
-            h2s(i,j)  = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phi2(i,j));
-            hc2s(i,j) = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phic2(i,j));
-            ht2s(i,j) = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phit2(i,j));
-        end
-    end
-    % ch??ng trinh tinh ap suat dong
-    while GAP2>ERR2
-        k2 = k2+1;
-        fx1=0;
-        fy1=0;
-        for i =1:m+1
-            for j =1:n+1
-                if i==1||i==m+1||j==1||j==n+1
-                    p2(i,j)=0;
-                elseif i>=102&&i<=104&&j>=75&&j<=77%i>=80&&i<=82&&j>=44&&j<=48
-                       p2(i,j)=Precess2; 
-                    %end
-                else
-                    a2(i,j)= hc2(i,j)^3;
-                    b2(i,j)= ht2(i,j)^3;
-                    c2(i,j)= ld^2*(deltaphi/deltalanda)^2*h2(i,j)^3;
-                    d2(i,j)= ld^2*(deltaphi/deltalanda)^2*h2(i,j)^3;
-                    e2(i,j)= a2(i,j)+b2(i,j)+c2(i,j)+d2(i,j);
-                    f2(i,j)= 3*deltaphi*(hc2(i,j)-ht2(i,j));
-                    p2(i,j)= (a2(i,j)*p02(i+1,j)+b2(i,j)*p02(i-1,j)+c2(i,j)*p02(i,j+1)... % he phuong trinh tinh ap suat
-                        +d2(i,j)*p02(i,j-1)-f2(i,j))/e2(i,j);
-                    if p2(i,j)<=0
-                        p2(i,j)=0;
-                    end
-                end
-            end
-        end
-        % Kiem tra dieu kien hoi tu
-        for i= 1:m+1
-            for j= 1:n+1
-                S2=S2+abs(p2(i,j)-p02(i,j));
-                T2=T2+abs(p2(i,j));
-                GAP2=S2/T2;
-            end
-        end
-        p02=p2;
-    end
-    % chuong trinh tinh ap suat tinh
-    while GAP2s>ERR2s
-        k2s = k2s+1;
-        for i =1:m+1
-            for j =1:n+1
-                if j==1||j==n+1||i==1||i==m+1
-                    p2s(i,j)=0;
-                    %p(i,j)=0;%p(i,j+1);
-                elseif i>=62&&i<=144&&j>=31&&j<=121
-                    p2s(i,j)=Precess2;
-                else
-                    a2s(i,j)= hc2s(i,j)^3;
-                    b2s(i,j)= ht2s(i,j)^3;
-                    c2s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h2s(i,j)^3;
-                    d2s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h2s(i,j)^3;
-                    e2s(i,j)= a2s(i,j)+b2s(i,j)+c2s(i,j)+d2s(i,j);
-                    f2s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
-                    p2s(i,j)= (a2s(i,j)*p02s(i+1,j)+b2s(i,j)*p02s(i-1,j)+c2s(i,j)*p02s(i,j+1)...  % he phuong trinh tinh ap suat
-                        +d2s(i,j)*p02s(i,j-1)-f2s(i,j))/e2s(i,j);
-                end
-            end
-        end
-        for i= 1:m+1
-            for j= 1:n+1
-                S2s=S2s+abs(p2s(i,j)-p02s(i,j));
-                T2s=T2s+abs(p2s(i,j));
-                GAP2s=S2s/T2s;
-            end
-        end
-        p02s=p2s;
-    end
-    Qd21=0;
-    Qd22=0;
-    Qd23=0;
-    Qs21=0;
-    Qs22=0;
-    Qs23=0;
-    for j=75:77%102:104   73:79%100:106
-       %Qd21=Qd21+(1/2)*ld^2*(h2(100,72)-((1/3)*(h2(100,72)^3)*(3*Precess2-4*p2(99,j)+p2(98,j))/(2*deltaphi)))*deltalanda;
-        Qd21=Qd21+(1/2)*ld^2*(h2(102,74)-((1/3)*(h2(102,74)^3)*(3*Precess2-4*p2(101,j)+p2(100,j))/(2*deltaphi)))*deltalanda;
-       %Qd22=Qd22+(1/2)*ld^2*(-h2(106,72)-((1/3)*(h2(106,72)^3)*(-3*Precess2+4*p2(107,j)-p2(108,j))/(2*deltaphi)))*deltalanda;
-        Qd22=Qd22+(1/2)*ld^2*(-h2(104,74)-((1/3)*(h2(104,74)^3)*(-3*Precess2+4*p2(107,j)-p2(106,j))/(2*deltaphi)))*deltalanda;
-    end
-    for j=74%j=72
-        for i=102:104%
-           %Qd23=Qd23-(1/6)*(h2(i,44))^3*(3*Precess2-4*p2(i,44)+p2(i,43))*(deltaphi/deltalanda);
-            Qd23=Qd23-(1/6)*(h2(i,74))^3*(3*Precess2-4*p2(i,74)+p2(i,73))*(deltaphi/deltalanda);
-        end
-    end
-    Q2d=Qd21+Qd22+Qd23;
-    %for i=51
-    % for j=16:76
-    %Qs21=Qs21-(1/2)*ld^2*((1/3)*(h2s(51,16))^3*((-3*p2s(51,j)+4*p2s(50,j)-p2s(49,j))/(2*deltaphi))*(deltalanda));
-    %Qs22=Qs22-(1/2)*ld^2*(-(1/3)*(h2s(111,16))^3*((3*p2s(111,j)-4*p2s(112,j)+p2s(113,j))/(2*deltaphi))*(deltalanda));
-    %end
-    %end
-    %i>=62&&i<=144&&j>=31&&j<=121
-    for i=62
-        for j=31:121
-            Qs21=Qs21-(1/2)*ld^2*((1/3)*(h2s(62,31))^3*((-3*p2s(62,j)+4*p2s(61,j)-p2s(60,j))/(2*deltaphi))*(deltalanda));
-            Qs22=Qs22-(1/2)*ld^2*(-(1/3)*(h2s(144,31))^3*((3*p2s(144,j)-4*p2s(145,j)+p2s(146,j))/(2*deltaphi))*(deltalanda));
-        end
-    end
-    %for j=16
-    %   for i=51:111
-    %   Qs23=Qs23+(1/6)*((h2s(i,j))^3)*(3*p2s(i,j)-4*p2s(i,j-1)+p2s(i,j-2))*(deltaphi/deltalanda);
-    %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
-    % end
-    %end
-    for j=31
-        for i=62:144
-            Qs23=Qs23+(1/6)*((h2s(i,j))^3)*(3*p2s(i,j)-4*p2s(i,j-1)+p2s(i,j-2))*(deltaphi/deltalanda);
-            %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
-        end
-    end
-    Q2s=Qs21+Qs22+Qs23;
-    % can bang momen
-    Md2=0;
-    Msr2=0;
-    Mso12=0;
-    Mso22=0;
-    Mso32=0;
-    Mso42=0;
-    for i=1:m+1
-        for j=1:n+1
-            Md2=Md2-R*p2(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    %i>=62&&i<=144&&j>=31&&j<=121
-    for i=62:144
-        for j=31:121
-            Msr2=Msr2-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=1:61
-        for j=1:n+1
-            Mso12=Mso12-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=145:m+1
-        for j=1:n+1
-            Mso22=Mso22-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=62:144
-        for j=1:30
-            Mso32=Mso32-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=62:144
-        for j=122:n+1
-            Mso42=Mso42-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
-        end
-    end
-    Ms2=Msr2+Mso12+Mso22+Mso32+Mso42;
-    %% TINH CHO PAD3
-    %  do day mang dau
-    for i=1:m+1
-        for j=1:n+1
-            % phan dong
-            phi3(i,j) = phi31+(i-1)*deltaphi;
-            phic3(i,j)= phi31+(i-1+1/2)*deltaphi;
-            phit3(i,j)= phi31+(i-1-1/2)*deltaphi;
-            h3(i,j) = 1+exilon*cos(phi3(i,j)-phibd)-M3*cos(phi3(i,j)-beta3)+capa3*sin(phi31-phi3(i,j));
-            hc3(i,j) = 1+exilon*cos(phic3(i,j)-phibd)-M3*cos(phic3(i,j)-beta3)+capa3*sin(phi31-phic3(i,j));
-            ht3(i,j) = 1+exilon*cos(phit3(i,j)-phibd)-M3*cos(phit3(i,j)-beta3)+capa3*sin(phi31-phit3(i,j));
-            % phan tinh
-            h3s(i,j)  = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phi3(i,j));
-            hc3s(i,j) = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phic3(i,j));
-            ht3s(i,j) = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phit3(i,j));
-        end
-    end
-    % ch??ng trinh tinh ap suat dong
-    while GAP3>ERR3
-        k3 = k3+1;
-        fx3=0;
-        fy3=0;
-        for i =1:m+1
-            for j =1:n+1
-                if i==1||i==m+1||j==1||j==n+1
-                    p3(i,j)=0;
-                else
-                    a3(i,j)= hc3(i,j)^3;
-                    b3(i,j)= ht3(i,j)^3;
-                    c3(i,j)= ld^2*(deltaphi/deltalanda)^2*h3(i,j)^3;
-                    d3(i,j)= ld^2*(deltaphi/deltalanda)^2*h3(i,j)^3;
-                    e3(i,j)= a3(i,j)+b3(i,j)+c3(i,j)+d3(i,j);
-                    f3(i,j)= 3*deltaphi*(hc3(i,j)-ht3(i,j));
-                    p3(i,j)= (a3(i,j)*p03(i+1,j)+b3(i,j)*p03(i-1,j)+c3(i,j)*p03(i,j+1)... % he phuong trinh tinh ap suat
-                        +d3(i,j)*p03(i,j-1)-f3(i,j))/e3(i,j);
-                    if p3(i,j)<=0
-                        p3(i,j)=0;
-                    end
-                end
-            end
-        end
-        % Kiem tra dieu kien hoi tu
-        for i= 1:m+1
-            for j= 1:n+1
-                S3=S3+abs(p3(i,j)-p03(i,j));
-                T3=T3+abs(p3(i,j));
-                GAP3=S3/T3;
-            end
-        end
-        p03=p3;
-    end
-     
-    % chuong trinh tinh ap suat tinh
-    while GAP3s>ERR3s
-        k3s = k3s+1;
-        for i =1:m+1
-            for j =1:n+1
-                if j==1||j==n+1||i==1||i==m+1
-                    p3s(i,j)=0;
-                elseif i>=62&&i<=144&&j>=31&&j<=121
-                    p3s(i,j)=p3(102,76);
-                else
-                    a3s(i,j)= hc3s(i,j)^3;
-                    b3s(i,j)= ht3s(i,j)^3;
-                    c3s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h3s(i,j)^3;
-                    d3s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h3s(i,j)^3;
-                    e3s(i,j)= a3s(i,j)+b3s(i,j)+c3s(i,j)+d3s(i,j);
-                    f3s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
-                    p3s(i,j)= (a3s(i,j)*p03s(i+1,j)+b3s(i,j)*p03s(i-1,j)+c3s(i,j)*p03s(i,j+1)...  % he phuong trinh tinh ap suat
-                        +d3s(i,j)*p03s(i,j-1)-f3s(i,j))/e3s(i,j);
-                    %if p(i,j)<=0
-                    %p(i,j)=0;
-                    %end
-                end
-            end
-        end
-        for i= 1:m+1
-            for j= 1:n+1
-                S3s=S3s+abs(p3s(i,j)-p03s(i,j));
-                T3s=T3s+abs(p3s(i,j));
-                GAP3s=S3s/T3s;
-            end
-        end
-        p03s=p3s;
-end
-Md3=0;
-    Msr3=0;
-    Mso13=0;
-    Mso23=0;
-    Mso33=0;
-    Mso43=0;
-    for i=1:m+1
-        for j=1:n+1
-            Md3=Md3-R*p3(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    %i>=62&&i<=144&&j>=31&&j<=121
-    for i=62:144
-        for j=31:121
-            Msr3=Msr3-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=1:61
-        for j=1:n+1
-            Mso13=0;%Mso13-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=145:m+1
-        for j=1:n+1
-            Mso23=0;%Mso23-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=62:144
-        for j=1:30
-            Mso33=0;%Mso33-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    for i=62:144
-        for j=122:n+1
-            Mso43=0;%Mso43-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
-        end
-    end
-    Ms3=Msr3+Mso13+Mso23+Mso33+Mso43;
+%     for i=1:m+1
+%         for j=1:n+1
+%             % phan dong
+%             phi2(i,j) = phi21+(i-1)*deltaphi;
+%             phic2(i,j)= phi21+(i-1+1/2)*deltaphi;
+%             phit2(i,j)= phi21+(i-1-1/2)*deltaphi;
+%             h2(i,j) = 1+exilon*cos(phi2(i,j)-phibd)-M2*cos(phi2(i,j)-beta2)+capa2*sin(phi21-phi2(i,j));
+%             hc2(i,j) = 1+exilon*cos(phic2(i,j)-phibd)-M2*cos(phic2(i,j)-beta2)+capa2*sin(phi21-phic2(i,j));
+%             ht2(i,j) = 1+exilon*cos(phit2(i,j)-phibd)-M2*cos(phit2(i,j)-beta2)+capa2*sin(phi21-phit2(i,j));
+%             % phan tinh
+%             h2s(i,j)  = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phi2(i,j));
+%             hc2s(i,j) = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phic2(i,j));
+%             ht2s(i,j) = (exilonn2/cl)*cos(phi2(i,j)-beta2)-capa2*sin(phi21-phit2(i,j));
+%         end
+%     end
+%     % ch??ng trinh tinh ap suat dong
+%     while GAP2>ERR2
+%         k2 = k2+1;
+%         fx1=0;
+%         fy1=0;
+%         for i =1:m+1
+%             for j =1:n+1
+%                 if i==1||i==m+1||j==1||j==n+1
+%                     p2(i,j)=0;
+%                 elseif i>=102&&i<=104&&j>=75&&j<=77%i>=80&&i<=82&&j>=44&&j<=48
+%                     p2(i,j)=Precess2;
+%                     %end
+%                 else
+%                     a2(i,j)= hc2(i,j)^3;
+%                     b2(i,j)= ht2(i,j)^3;
+%                     c2(i,j)= ld^2*(deltaphi/deltalanda)^2*h2(i,j)^3;
+%                     d2(i,j)= ld^2*(deltaphi/deltalanda)^2*h2(i,j)^3;
+%                     e2(i,j)= a2(i,j)+b2(i,j)+c2(i,j)+d2(i,j);
+%                     f2(i,j)= 3*deltaphi*(hc2(i,j)-ht2(i,j));
+%                     p2(i,j)= (a2(i,j)*p02(i+1,j)+b2(i,j)*p02(i-1,j)+c2(i,j)*p02(i,j+1)... % he phuong trinh tinh ap suat
+%                         +d2(i,j)*p02(i,j-1)-f2(i,j))/e2(i,j);
+%                     if p2(i,j)<=0
+%                         p2(i,j)=0;
+%                     end
+%                 end
+%             end
+%         end
+%         % Kiem tra dieu kien hoi tu
+%         for i= 1:m+1
+%             for j= 1:n+1
+%                 S2=S2+abs(p2(i,j)-p02(i,j));
+%                 T2=T2+abs(p2(i,j));
+%                 GAP2=S2/T2;
+%             end
+%         end
+%         p02=p2;
+%     end
+%     % chuong trinh tinh ap suat tinh
+%     while GAP2s>ERR2s
+%         k2s = k2s+1;
+%         for i =1:m+1
+%             for j =1:n+1
+%                 if j==1||j==n+1||i==1||i==m+1
+%                     p2s(i,j)=0;
+%                     %p(i,j)=0;%p(i,j+1);
+%                 elseif i>=62&&i<=144&&j>=31&&j<=121
+%                     p2s(i,j)=Precess2;
+%                 else
+%                     a2s(i,j)= hc2s(i,j)^3;
+%                     b2s(i,j)= ht2s(i,j)^3;
+%                     c2s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h2s(i,j)^3;
+%                     d2s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h2s(i,j)^3;
+%                     e2s(i,j)= a2s(i,j)+b2s(i,j)+c2s(i,j)+d2s(i,j);
+%                     f2s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
+%                     p2s(i,j)= (a2s(i,j)*p02s(i+1,j)+b2s(i,j)*p02s(i-1,j)+c2s(i,j)*p02s(i,j+1)...  % he phuong trinh tinh ap suat
+%                         +d2s(i,j)*p02s(i,j-1)-f2s(i,j))/e2s(i,j);
+%                 end
+%             end
+%         end
+%         for i= 1:m+1
+%             for j= 1:n+1
+%                 S2s=S2s+abs(p2s(i,j)-p02s(i,j));
+%                 T2s=T2s+abs(p2s(i,j));
+%                 GAP2s=S2s/T2s;
+%             end
+%         end
+%         p02s=p2s;
+%     end
+%     Qd21=0;
+%     Qd22=0;
+%     Qd23=0;
+%     Qs21=0;
+%     Qs22=0;
+%     Qs23=0;
+%     for j=75:77%102:104   73:79%100:106
+%         %Qd21=Qd21+(1/2)*ld^2*(h2(100,72)-((1/3)*(h2(100,72)^3)*(3*Precess2-4*p2(99,j)+p2(98,j))/(2*deltaphi)))*deltalanda;
+%         Qd21=Qd21+(1/2)*ld^2*(h2(102,74)-((1/3)*(h2(102,74)^3)*(3*Precess2-4*p2(101,j)+p2(100,j))/(2*deltaphi)))*deltalanda;
+%         %Qd22=Qd22+(1/2)*ld^2*(-h2(106,72)-((1/3)*(h2(106,72)^3)*(-3*Precess2+4*p2(107,j)-p2(108,j))/(2*deltaphi)))*deltalanda;
+%         Qd22=Qd22+(1/2)*ld^2*(-h2(104,74)-((1/3)*(h2(104,74)^3)*(-3*Precess2+4*p2(107,j)-p2(106,j))/(2*deltaphi)))*deltalanda;
+%     end
+%     for j=74%j=72
+%         for i=102:104%
+%             %Qd23=Qd23-(1/6)*(h2(i,44))^3*(3*Precess2-4*p2(i,44)+p2(i,43))*(deltaphi/deltalanda);
+%             Qd23=Qd23-(1/6)*(h2(i,74))^3*(3*Precess2-4*p2(i,74)+p2(i,73))*(deltaphi/deltalanda);
+%         end
+%     end
+%     Q2d=Qd21+Qd22+Qd23;
+%     %for i=51
+%     % for j=16:76
+%     %Qs21=Qs21-(1/2)*ld^2*((1/3)*(h2s(51,16))^3*((-3*p2s(51,j)+4*p2s(50,j)-p2s(49,j))/(2*deltaphi))*(deltalanda));
+%     %Qs22=Qs22-(1/2)*ld^2*(-(1/3)*(h2s(111,16))^3*((3*p2s(111,j)-4*p2s(112,j)+p2s(113,j))/(2*deltaphi))*(deltalanda));
+%     %end
+%     %end
+%     %i>=62&&i<=144&&j>=31&&j<=121
+%     for i=62
+%         for j=31:121
+%             Qs21=Qs21-(1/2)*ld^2*((1/3)*(h2s(62,31))^3*((-3*p2s(62,j)+4*p2s(61,j)-p2s(60,j))/(2*deltaphi))*(deltalanda));
+%             Qs22=Qs22-(1/2)*ld^2*(-(1/3)*(h2s(144,31))^3*((3*p2s(144,j)-4*p2s(145,j)+p2s(146,j))/(2*deltaphi))*(deltalanda));
+%         end
+%     end
+%     %for j=16
+%     %   for i=51:111
+%     %   Qs23=Qs23+(1/6)*((h2s(i,j))^3)*(3*p2s(i,j)-4*p2s(i,j-1)+p2s(i,j-2))*(deltaphi/deltalanda);
+%     %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
+%     % end
+%     %end
+%     for j=31
+%         for i=62:144
+%             Qs23=Qs23+(1/6)*((h2s(i,j))^3)*(3*p2s(i,j)-4*p2s(i,j-1)+p2s(i,j-2))*(deltaphi/deltalanda);
+%             %Qs13=(1/6)*((h1s(i,j))^3)*(3*p1s(i,j)-4*p1s(i,j+1)+p1s(i,j+2))*(deltaphi/deltalanda);
+%         end
+%     end
+%     Q2s=Qs21+Qs22+Qs23;
+%     
+%     
+%       %%
+%     k=k+1;
+%     condition1 = abs((Q2d-Q2s)/Q2d);
+%     condition2 = abs((Q2d-Q2s)/Q2s);
+%     if(condition1 > err && condition2 > err && k<10)
+%          %Kiá»ƒm tra náº¿u
+%         condition3 = Q2d-Q2s;
+%         if(condition3 > 0)
+%             Precess21 = Precess2;
+%         else
+%             Precess22 = Precess2;
+%         end
+%         Precess2 = (Precess21+Precess22)/2
+%         continue
+%     end
+%    
+%     
+%     
+%     
+%     
+%     
+%     % can bang momen
+%     Md2=0;
+%     Msr2=0;
+%     Mso12=0;
+%     Mso22=0;
+%     Mso32=0;
+%     Mso42=0;
+%     for i=1:m+1
+%         for j=1:n+1
+%             Md2=Md2-R*p2(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     %i>=62&&i<=144&&j>=31&&j<=121
+%     for i=62:144
+%         for j=31:121
+%             Msr2=Msr2-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=1:61
+%         for j=1:n+1
+%             Mso12=Mso12-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=145:m+1
+%         for j=1:n+1
+%             Mso22=Mso22-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=62:144
+%         for j=1:30
+%             Mso32=Mso32-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=62:144
+%         for j=122:n+1
+%             Mso42=Mso42-Rn*p2s(i,j)*sin(phi21-phi2(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     Ms2=Msr2+Mso12+Mso22+Mso32+Mso42;
+%     
+%     
+%     
+%     
+%     
+%     
+%     
+%     
+%     conditionM21 = abs((Md2-Ms2)/Md2);
+%     conditionM22 = abs((Md2-Ms2)/Ms2);
+%     if(conditionM21 > err && conditionM22 > err)
+%         conditionM3 = Md2-Ms2;
+%         if(conditionM3 < 0)
+%             anpha21 = anpha2;
+%         else
+%             anpha22 = anpha2;
+%         end
+%         anpha2 = (anpha21+anpha22)/2;
+%                 
+%         Precess21=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+%         Precess22=2;%0.9;%0.7;%1;%
+%         Precess2 = (Precess21+Precess22)/2
+%         k=0
+% 
+%         c=c+1;
+%         
+%         
+%         Md2
+%         Ms2
+%         hs_anpha2 = (anpha2*180)/pi
+%         hs_anpha21 = (anpha21*180)/pi
+%         hs_anpha22 = (anpha22*180)/pi
+%         
+%         disp('---------------');
+%         
+%         
+%         
+%         if(c==10)
+%             break
+%         end
+% 
+%         continue
+%     end
+%     
     
     
     
     
     
     
-    fx1=0;
-    fy1=0;
-    for i=1:m+1
-        for j=1:n+1
-            fx1=fx1-(p1(i,j))*sin(phi11+(i-1)*deltaphi)*deltaphi*deltalanda;
-            fy1=fy1-(p1(i,j))*cos(phi11+(i-1)*deltaphi)*deltaphi*deltalanda;
-        end
-    end
-    % tren pad2
-    fx2=0;
-    fy2=0;
-    for i=1:m+1
-        for j=1:n+1
-            fx2=fx2-(p2(i,j))*sin(phi21+(i-1)*deltaphi)*deltaphi*deltalanda;
-            fy2=fy2-(p2(i,j))*cos(phi21+(i-1)*deltaphi)*deltaphi*deltalanda;
-        end
-    end
-    % trÃªn pad 3
-    fx3=0;
-    fy3=0;
-    for i=1:m+1
-        for j=1:n+1
-            fx3=fx3-(p3(i,j))*sin(phi31+(i-1)*deltaphi)*deltaphi*deltalanda;
-            fy3=fy3-(p3(i,j))*cos(phi31+(i-1)*deltaphi)*deltaphi*deltalanda;
-        end
-    end
-    fx=fx1+fx2+fx3;
-    fy=fy1+fy2+fy3;
-
-    k=k+1
-    condition1 = abs((Q2d-Q2s)/Q2d);
-    condition2 = abs((Q2d-Q2s)/Q2s);
-    if((condition1 < err && condition2 <err)|| k == 10)
+    
+    
+%     %% TINH CHO PAD3
+%     %  do day mang dau
+%     for i=1:m+1
+%         for j=1:n+1
+%             % phan dong
+%             phi3(i,j) = phi31+(i-1)*deltaphi;
+%             phic3(i,j)= phi31+(i-1+1/2)*deltaphi;
+%             phit3(i,j)= phi31+(i-1-1/2)*deltaphi;
+%             h3(i,j) = 1+exilon*cos(phi3(i,j)-phibd)-M3*cos(phi3(i,j)-beta3)+capa3*sin(phi31-phi3(i,j));
+%             hc3(i,j) = 1+exilon*cos(phic3(i,j)-phibd)-M3*cos(phic3(i,j)-beta3)+capa3*sin(phi31-phic3(i,j));
+%             ht3(i,j) = 1+exilon*cos(phit3(i,j)-phibd)-M3*cos(phit3(i,j)-beta3)+capa3*sin(phi31-phit3(i,j));
+%             % phan tinh
+%             h3s(i,j)  = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phi3(i,j));
+%             hc3s(i,j) = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phic3(i,j));
+%             ht3s(i,j) = (exilonn3/cl)*cos(phi3(i,j)-beta3)-capa3*sin(phi31-phit3(i,j));
+%         end
+%     end
+%     % ch??ng trinh tinh ap suat dong
+%     while GAP3>ERR3
+%         k3 = k3+1;
+%         fx3=0;
+%         fy3=0;
+%         for i =1:m+1
+%             for j =1:n+1
+%                 if i==1||i==m+1||j==1||j==n+1
+%                     p3(i,j)=0;
+%                 else
+%                     a3(i,j)= hc3(i,j)^3;
+%                     b3(i,j)= ht3(i,j)^3;
+%                     c3(i,j)= ld^2*(deltaphi/deltalanda)^2*h3(i,j)^3;
+%                     d3(i,j)= ld^2*(deltaphi/deltalanda)^2*h3(i,j)^3;
+%                     e3(i,j)= a3(i,j)+b3(i,j)+c3(i,j)+d3(i,j);
+%                     f3(i,j)= 3*deltaphi*(hc3(i,j)-ht3(i,j));
+%                     p3(i,j)= (a3(i,j)*p03(i+1,j)+b3(i,j)*p03(i-1,j)+c3(i,j)*p03(i,j+1)... % he phuong trinh tinh ap suat
+%                         +d3(i,j)*p03(i,j-1)-f3(i,j))/e3(i,j);
+%                     if p3(i,j)<=0
+%                         p3(i,j)=0;
+%                     end
+%                 end
+%             end
+%         end
+%         % Kiem tra dieu kien hoi tu
+%         for i= 1:m+1
+%             for j= 1:n+1
+%                 S3=S3+abs(p3(i,j)-p03(i,j));
+%                 T3=T3+abs(p3(i,j));
+%                 GAP3=S3/T3;
+%             end
+%         end
+%         p03=p3;
+%     end
+%     
+%     % chuong trinh tinh ap suat tinh
+%     while GAP3s>ERR3s
+%         k3s = k3s+1;
+%         for i =1:m+1
+%             for j =1:n+1
+%                 if j==1||j==n+1||i==1||i==m+1
+%                     p3s(i,j)=0;
+%                 elseif i>=62&&i<=144&&j>=31&&j<=121
+%                     p3s(i,j)=p3(102,76);
+%                 else
+%                     a3s(i,j)= hc3s(i,j)^3;
+%                     b3s(i,j)= ht3s(i,j)^3;
+%                     c3s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h3s(i,j)^3;
+%                     d3s(i,j)= lrz^2*(deltaphi/deltalanda)^2*h3s(i,j)^3;
+%                     e3s(i,j)= a3s(i,j)+b3s(i,j)+c3s(i,j)+d3s(i,j);
+%                     f3s(i,j)=0;%3*deltaphi1*(hc(i,j)-ht(i,j));
+%                     p3s(i,j)= (a3s(i,j)*p03s(i+1,j)+b3s(i,j)*p03s(i-1,j)+c3s(i,j)*p03s(i,j+1)...  % he phuong trinh tinh ap suat
+%                         +d3s(i,j)*p03s(i,j-1)-f3s(i,j))/e3s(i,j);
+%                     %if p(i,j)<=0
+%                     %p(i,j)=0;
+%                     %end
+%                 end
+%             end
+%         end
+%         for i= 1:m+1
+%             for j= 1:n+1
+%                 S3s=S3s+abs(p3s(i,j)-p03s(i,j));
+%                 T3s=T3s+abs(p3s(i,j));
+%                 GAP3s=S3s/T3s;
+%             end
+%         end
+%         p03s=p3s;
+%     end
+%     Md3=0;
+%     Msr3=0;
+%     Mso13=0;
+%     Mso23=0;
+%     Mso33=0;
+%     Mso43=0;
+%     for i=1:m+1
+%         for j=1:n+1
+%             Md3=Md3-R*p3(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     %i>=62&&i<=144&&j>=31&&j<=121
+%     for i=62:144
+%         for j=31:121
+%             Msr3=Msr3-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=1:61
+%         for j=1:n+1
+%             Mso13=0;%Mso13-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=145:m+1
+%         for j=1:n+1
+%             Mso23=0;%Mso23-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=62:144
+%         for j=1:30
+%             Mso33=0;%Mso33-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     for i=62:144
+%         for j=122:n+1
+%             Mso43=0;%Mso43-Rn*p3s(i,j)*sin(phi31-phi3(i,j))*deltaphi*deltalanda;
+%         end
+%     end
+%     Ms3=Msr3+Mso13+Mso23+Mso33+Mso43;
+%     
+%     
+%     
+    
+    
+%     %%
+%     fx1=0;
+%     fy1=0;
+%     for i=1:m+1
+%         for j=1:n+1
+%             fx1=fx1-(p1(i,j))*sin(phi11+(i-1)*deltaphi)*deltaphi*deltalanda;
+%             fy1=fy1-(p1(i,j))*cos(phi11+(i-1)*deltaphi)*deltaphi*deltalanda;
+%         end
+%     end
+%     % tren pad2
+%     fx2=0;
+%     fy2=0;
+%     for i=1:m+1
+%         for j=1:n+1
+%             fx2=fx2-(p2(i,j))*sin(phi21+(i-1)*deltaphi)*deltaphi*deltalanda;
+%             fy2=fy2-(p2(i,j))*cos(phi21+(i-1)*deltaphi)*deltaphi*deltalanda;
+%         end
+%     end
+%     % trÃªn pad 3
+%     fx3=0;
+%     fy3=0;
+%     for i=1:m+1
+%         for j=1:n+1
+%             fx3=fx3-(p3(i,j))*sin(phi31+(i-1)*deltaphi)*deltaphi*deltalanda;
+%             fy3=fy3-(p3(i,j))*cos(phi31+(i-1)*deltaphi)*deltaphi*deltalanda;
+%         end
+%     end
+%     fx=fx1+fx2+fx3;
+%     fy=fy1+fy2+fy3;
+%     
+%     
+%     
+%     
+    
+    
+    
+    if(condition11 < err && condition12 < err && conditionM11 < err && conditionM12 < err)
         break
     end
-    %Kiá»ƒm tra náº¿u 
-    condition3 = Q2d-Q2s
-    if(condition3 > 0)
-        Precess21 = Precess2
-    else
-        Precess22 = Precess2
-    end
-     Precess2 = (Precess21+Precess22)/2
+    % if(condition1 < err && condition2 < err && conditionM21 < err && conditionM22 < err)
+    %     break
+    % end
+    
 end
-Q2d
-Q2s
-Q2d-Q2s
-Precess2
-k
-p1(103,76);
-p2(103,76);
-p3(103,76);
-p1(72,76);
-p3(50,76);
+
+
+
+
+
+
+
+Md1
+Ms1
+hs_anpha1 = anpha1*180/pi
+
+Q1d
+Q1s
+% Qt=Q2d-Q2s
+Precess1
+k1
+% Md2
+% Ms2
+% hs_anpha2 = anpha2*180/pi
+
+% Q2d
+% Q2s
+% Qt=Q2d-Q2s
+% Precess2
+% k
+% p1(103,76);
+% p2(103,76);
+% p3(103,76);
+% p1(72,76);
+% p3(50,76);
