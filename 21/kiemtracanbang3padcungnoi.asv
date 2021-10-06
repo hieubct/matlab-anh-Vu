@@ -51,6 +51,7 @@ anpha31 = 0*pi/180;
 anpha32 = 0.02*pi/180;
 anpha3 = (anpha31+anpha32)/2;
 
+anpha3 = 0;% goc nghieng cua pad3
 exilon = 0.2;% ti le lech tam
 phibd =0.985;%0.9;%0.95;%1;%1.23;% goc lech ban dau cua truc
 
@@ -311,17 +312,17 @@ while true
     
     
     kk1=kk1+1;
-    condition11 = abs((Q1d-Q1s)/Q1d);
-    condition12 = abs((Q1d-Q1s)/Q1s);
+    condition11 = abs((Q1d-Q1s)/Q1d)
+    condition12 = abs((Q1d-Q1s)/Q1s)
     if(condition11 > err && condition12 > err && kk1<10)
         %Kiểm tra nếu
-        condition13 = Q1d-Q1s;
+        condition13 = Q1d-Q1s
         if(condition13 > 0)
-            Precess11 = Precess1;
+            Precess11 = Precess1
         else
-            Precess12 = Precess1;
+            Precess12 = Precess1
         end
-        Precess1 = (Precess11+Precess12)/2;
+        Precess1 = (Precess11+Precess12)/2
         continue
     end
     
@@ -338,17 +339,17 @@ while true
         
         Precess11=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
         Precess12=2.5;%0.9;%0.7;%1;%
-        Precess1 = (Precess11+Precess12)/2;
-        kk1=0;
+        Precess1 = (Precess11+Precess12)/2
+        kk1=0
         
         cc1=cc1+1;
         
         
-        Md1;
-        Ms1;
-        hs_anpha1 = (anpha1*180)/pi;
-        hs_anpha11 = (anpha11*180)/pi;
-        hs_anpha12 = (anpha12*180)/pi;
+        Md1
+        Ms1
+        hs_anpha1 = (anpha1*180)/pi
+        hs_anpha11 = (anpha11*180)/pi
+        hs_anpha12 = (anpha12*180)/pi
         
         disp('---------------');
         
@@ -588,7 +589,7 @@ while true
         else
             Precess22 = Precess2;
         end
-        Precess2 = (Precess21+Precess22)/2;
+        Precess2 = (Precess21+Precess22)/2
         continue
     end
     
@@ -605,17 +606,17 @@ while true
         
         Precess21=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
         Precess22=2;%0.9;%0.7;%1;%
-        Precess2 = (Precess21+Precess22)/2;
-        kk2=0;
+        Precess2 = (Precess21+Precess22)/2
+        kk2=0
         
         cc2=cc2+1;
         
         
-        Md2;
-        Ms2;
-        hs_anpha2 = (anpha2*180)/pi;
-        hs_anpha21 = (anpha21*180)/pi;
-        hs_anpha22 = (anpha22*180)/pi;
+        Md2
+        Ms2
+        hs_anpha2 = (anpha2*180)/pi
+        hs_anpha21 = (anpha21*180)/pi
+        hs_anpha22 = (anpha22*180)/pi
         
         disp('---------------');
 
@@ -875,17 +876,17 @@ while true
     
     
     kk3=kk3+1;
-    condition31 = abs((Q3d-Q3s)/Q3d);
-    condition32 = abs((Q3d-Q3s)/Q3s);
+    condition31 = abs((Q3d-Q3s)/Q3d)
+    condition32 = abs((Q3d-Q3s)/Q3s)
     if(condition31 > err && condition32 > err && kk3<10)
         %Kiểm tra nếu
-        condition33 = Q3d-Q3s;
+        condition33 = Q3d-Q3s
         if(condition33 > 0)
-            Precess31 = Precess3;
+            Precess31 = Precess3
         else
-            Precess32 = Precess3;
+            Precess32 = Precess3
         end
-        Precess3 = (Precess31+Precess32)/2;
+        Precess3 = (Precess31+Precess32)/2
         continue
     end
     
