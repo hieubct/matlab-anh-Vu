@@ -55,12 +55,21 @@ exilon = 0.2;% ti le lech tam
 phibd =0.985;%0.9;%0.95;%1;%1.23;% goc lech ban dau cua truc
 
 
-Precess11=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-Precess12=2.5;%0.9;%0.7;%1;%
-Precess21=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-Precess22=2;%0.9;%0.7;%1;%
-Precess31=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-Precess32=3;%0.9;%0.7;%1;%
+
+
+Precess110=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+Precess120=2.5;%0.9;%0.7;%1;%
+Precess210=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+Precess220=2;%0.9;%0.7;%1;%
+Precess310=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
+Precess320=3;%0.9;%0.7;%1;%
+
+Precess11=Precess110;
+Precess12=Precess120;
+Precess21=Precess210;
+Precess22=Precess220;
+Precess31=Precess310;
+Precess32=Precess320;
 
 
 ld = l/d1; % ti le chieu dai tren duong kinh
@@ -96,6 +105,14 @@ kk3=0;
 cc3=0;
 k=0;
 c=0;
+
+
+
+
+
+
+
+
 while true
     
     capa1=Rt*anpha1/cl;
@@ -313,7 +330,7 @@ while true
     kk1=kk1+1;
     condition11 = abs((Q1d-Q1s)/Q1d);
     condition12 = abs((Q1d-Q1s)/Q1s);
-    if(condition11 > err && condition12 > err && kk1<10)
+    if((condition11 > err || condition12 > err) && kk1<=10)
         %Kiểm tra nếu
         condition13 = Q1d-Q1s;
         if(condition13 > 0)
@@ -321,49 +338,53 @@ while true
         else
             Precess12 = Precess1;
         end
-        Precess1 = (Precess11+Precess12)/2;
+        Precess1 = (Precess11+Precess12)/2
         continue
     end
     
     conditionM11 = abs((Md1-Ms1)/Md1);
     conditionM12 = abs((Md1-Ms1)/Ms1);
-    if(conditionM11 > err && conditionM12 > err)
+    if((conditionM11 > err || conditionM12 > err) && cc1 <=10)
         conditionM13 = Md1-Ms1;
         if(conditionM13 < 0)
             anpha11 = anpha1;
         else
             anpha12 = anpha1;
         end
-        anpha1 = (anpha11+anpha12)/2;
+        anpha1 = (anpha11+anpha12)/2
         
-        Precess11=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-        Precess12=2.5;%0.9;%0.7;%1;%
+        Precess11=Precess110;
+        Precess12=Precess120;
         Precess1 = (Precess11+Precess12)/2;
         kk1=0;
         
         cc1=cc1+1;
         
         
-        Md1;
-        Ms1;
-        hs_anpha1 = (anpha1*180)/pi;
-        hs_anpha11 = (anpha11*180)/pi;
-        hs_anpha12 = (anpha12*180)/pi;
+        Q1d
+        Q1s
+        Md1
+        Ms1
+        hs_anpha1 = (anpha1*180)/pi
         
-        disp('---------------');
-        
-        
-        
-        if(cc1==10)
-            break
-        end
-        
+        disp('--------------- Pad1');
         continue
     end
-    
+
+    break
 end
 
 
+
+
+
+
+
+
+
+
+
+ 
 %% TINH CHO PAD2
 %  do day mang dau
 while true
@@ -580,7 +601,7 @@ while true
     kk2=kk2+1;
     condition21 = abs((Q2d-Q2s)/Q2d);
     condition22 = abs((Q2d-Q2s)/Q2s);
-    if(condition21 > err && condition22 > err && kk2<10)
+    if((condition21 > err || condition22 > err) && kk2<=10)
         %Kiểm tra nếu
         condition23 = Q2d-Q2s;
         if(condition23 > 0)
@@ -588,43 +609,40 @@ while true
         else
             Precess22 = Precess2;
         end
-        Precess2 = (Precess21+Precess22)/2;
+        Precess2 = (Precess21+Precess22)/2
         continue
     end
     
     conditionM21 = abs((Md2-Ms2)/Md2);
     conditionM22 = abs((Md2-Ms2)/Ms2);
-    if(conditionM21 > err && conditionM22 > err)
+    if((conditionM21 > err || conditionM22 > err) && cc2<=10)
         conditionM23 = Md2-Ms2;
         if(conditionM23 < 0)
             anpha21 = anpha2;
         else
             anpha22 = anpha2;
         end
-        anpha2 = (anpha21+anpha22)/2;
+        anpha2 = (anpha21+anpha22)/2
         
-        Precess21=1;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-        Precess22=2;%0.9;%0.7;%1;%
+        Precess21=Precess210;
+        Precess22=Precess220;
         Precess2 = (Precess21+Precess22)/2;
         kk2=0;
         
         cc2=cc2+1;
         
+        Q2d
+        Q2s
+        Md2
+        Ms2
+        hs_anpha2 = (anpha2*180)/pi
         
-        Md2;
-        Ms2;
-        hs_anpha2 = (anpha2*180)/pi;
-        hs_anpha21 = (anpha21*180)/pi;
-        hs_anpha22 = (anpha22*180)/pi;
-        
-        disp('---------------');
-
-        if(cc2==10)
-            break
-        end
+        disp('--------------- Pad2');
         
         continue
     end
+
+    break
 end
 
 
@@ -877,7 +895,7 @@ while true
     kk3=kk3+1;
     condition31 = abs((Q3d-Q3s)/Q3d);
     condition32 = abs((Q3d-Q3s)/Q3s);
-    if(condition31 > err && condition32 > err && kk3<10)
+    if((condition31 > err || condition32 > err) && kk3<=10)
         %Kiểm tra nếu
         condition33 = Q3d-Q3s;
         if(condition33 > 0)
@@ -885,46 +903,40 @@ while true
         else
             Precess32 = Precess3;
         end
-        Precess3 = (Precess31+Precess32)/2;
+        Precess3 = (Precess31+Precess32)/2
         continue
     end
     
     conditionM31 = abs((Md3-Ms3)/Md3);
     conditionM32 = abs((Md3-Ms3)/Ms3);
-    if(conditionM31 > err && conditionM32 > err)
+    if((conditionM31 > err || conditionM32 > err) && cc3<=10)
         conditionM33 = Md3-Ms3;
         if(conditionM33 < 0)
             anpha31 = anpha3;
         else
             anpha32 = anpha3;
         end
-        anpha3 = (anpha31+anpha32)/2;
+        anpha3 = (anpha31+anpha32)/2
         
-        Precess31=0;%0.87;%0.86;%0.85;%0.86;%0.84;%0.82;%0.84;%0.9;%
-        Precess32=2.5;%0.9;%0.7;%1;%
+        Precess31=Precess310;
+        Precess32=Precess320;
         Precess3 = (Precess31+Precess32)/2;
         kk3=0;
         
         cc3=cc3+1;
         
+        Q3d
+        Q3s
+        Md3
+        Ms3
+        hs_anpha3 = (anpha3*180)/pi
         
-        Md3;
-        Ms3;
-        hs_anpha3 = (anpha3*180)/pi;
-        hs_anpha31 = (anpha31*180)/pi;
-        hs_anpha32 = (anpha32*180)/pi;
-        
-        disp('---------------');
-        
-        
-        
-        if(cc3==10)
-            break
-        end
+        disp('--------------- Pad3');
         
         continue
     end
-    
+
+    break
 end
 
 %     if(condition11 < err && condition12 < err && conditionM11 < err && conditionM12 < err)
@@ -973,4 +985,5 @@ cc3
 % p2(103,76);
 % p3(103,76);
 % p1(72,76);
-% p3(50,76);
+% p3(50,76); 
+
